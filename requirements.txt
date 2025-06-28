@@ -25,3 +25,4 @@ langchain-tavily
 yfinance
 serper
 chromadb
+matplotlib
