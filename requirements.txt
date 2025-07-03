@@ -26,3 +26,5 @@ serper
 chromadb
 matplotlib
 xmltodict
+python-docx
+fpdf
