@@ -25,3 +25,4 @@ yfinance
 serper
 chromadb
 matplotlib
+xmltodict
