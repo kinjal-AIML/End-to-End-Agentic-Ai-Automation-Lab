@@ -22,9 +22,10 @@ pypdf
 langchain_experimental
 langchain-tavily
 yfinance
-serper
-chromadb
-matplotlib
 xmltodict
 python-docx
 fpdf
+
+autogen-agentchat
+autogen-ext
+autogen-core
