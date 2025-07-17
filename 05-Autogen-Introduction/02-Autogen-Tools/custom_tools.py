@@ -38,9 +38,9 @@ reverse_tool = FunctionTool(
 agent = AssistantAgent(
     name="My_assistant",
     model_client=ollama_model,
-    system_message="You are a helpful aisstant that can reverse user input and given the result with summary.",
+    system_message="You are a helpful assistant that can reverse user input and given the result with summary.",
     tools=[reverse_tool],
-    reflect_on_tool_use=True
+    reflect_on_tool_use=True  ## tools result goes to the llm.
 )
 
 async def main():
