@@ -1,0 +1,15 @@
+# Import necessary libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the iris.csv file into a pandas DataFrame
+df = pd.read_csv('iris.csv')
+
+# Create a histogram or bar chart to display the distribution of flower species
+plt.figure(figsize=(10,6))
+df['species'].value_counts().plot(kind='bar')
+plt.title('Distribution of Flower Species')
+plt.xlabel('Species')
+plt.ylabel('Count')
+print("Plot displayed")
+plt.show()

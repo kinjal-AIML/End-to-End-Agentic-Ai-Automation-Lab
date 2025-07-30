@@ -11,7 +11,7 @@ async def main():
     team = getDataAnalyzerTeam(docker, ollama_model_clint)
     
     try:
-        task = "can you give me a graph of flower in my data iris.csv"
+        task = "can you give me a graph of flower types in my data iris.csv"
         
         await start_docker_container(docker)
         

@@ -1,0 +1,16 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read the csv file
+data = pd.read_csv('iris.csv')
+
+# Check for null values in the data
+print(data.isnull().sum())
+
+# Create a bar chart of flower types
+plt.figure(figsize=(10,6))
+data['species'].value_counts().plot(kind='bar')
+plt.title('Flower Types')
+plt.xlabel('Species')
+plt.ylabel('Count')
+plt.show()
