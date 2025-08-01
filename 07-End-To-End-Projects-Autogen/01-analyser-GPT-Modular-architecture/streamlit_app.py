@@ -5,7 +5,7 @@ from teams.analyzer_gpt import getDataAnalyzerTeam
 from config.docker_util import start_docker_container, stop_docker_container, getDockerCommandLineExecutor
 from model.ollama_model_clint import get_ollama_model_clint
 from autogen_agentchat.messages import TextMessage
-
+from autogen_agentchat.base import TaskResult
 
 
 
@@ -34,7 +34,10 @@ async def run_analyzer_gpt(docker, ollama_model_client, task):
         team = getDataAnalyzerTeam(docker, ollama_model_client)
         
         async for messages in team.run_stream(task=task):
-            st.markdown(f"--: {messages}")
+            if isinstance(messages, TextMessage):
+                st.markdown(f"--: {messages.content}")
+            elif isinstance(messages, TaskResult):
+                st.markdown(messages.stop_reason)
         
         return None
     
@@ -50,8 +53,8 @@ async def run_analyzer_gpt(docker, ollama_model_client, task):
 if task:
     if upload_file is not None:
         
-        if not os.path.exists("temp"):
-            os.makedirs("temp")
+        if not os.path.exists("/temp"):
+            os.makedirs("temp", exist_ok=True)
         
         with open("temp/data.csv", "wb") as f:
             f.write(upload_file.getbuffer())
