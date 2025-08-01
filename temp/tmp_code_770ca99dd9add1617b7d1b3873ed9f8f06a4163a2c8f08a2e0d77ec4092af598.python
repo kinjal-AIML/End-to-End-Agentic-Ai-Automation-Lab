@@ -1,0 +1,7 @@
+import pandas as pd
+
+# Read the csv file into a DataFrame
+df = pd.read_csv('data.csv')
+
+# Display the count of each unique value in the 'Embarked' column
+print(df['Embarked'].value_counts())
