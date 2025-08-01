@@ -40,6 +40,7 @@ graph TD
     end
     
     F -- "Display output.png & Final Analysis" --> B;
+```
 
 ### Use code with caution.
 
