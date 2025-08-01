@@ -1,0 +1,28 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+print("Importing libraries...")
+
+# Read the csv file
+df = pd.read_csv('data.csv')
+
+print("Reading data from CSV file...")
+
+# Create a bar chart
+plt.figure(figsize=(10,6))
+survived = df['Survived'].value_counts()[1]
+died = df['Survived'].value_counts()[0]
+
+print(f"Plotting survived: {survived} and died: {died}")
+
+plt.bar(['Survived', 'Died'], [survived, died])
+plt.xlabel('Status')
+plt.ylabel('Count')
+plt.title('Survived vs Died')
+
+# Save the plot
+plt.savefig('output.png')
+print("Plot saved as output.png")
+
+# Show the plot
+plt.show()

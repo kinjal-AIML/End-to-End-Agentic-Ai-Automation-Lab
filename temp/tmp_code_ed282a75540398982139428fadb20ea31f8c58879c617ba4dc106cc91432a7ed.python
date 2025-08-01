@@ -1,0 +1,12 @@
+import pandas as pd
+
+# Load the data.csv file
+df = pd.read_csv('data.csv')
+
+# Filter the DataFrame for people living in New York
+new_york_df = df[df['City'] == 'New York']
+
+# Calculate the average salary of people living in New York
+average_salary = new_york_df['Salary'].mean()
+
+print(f'The average salary of people living in New York is: {average_salary:.2f}')

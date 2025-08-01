@@ -1,0 +1,17 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the data
+df = pd.read_csv('data.csv')
+
+# Calculate the total number of people who died and survived
+survived = df['Survived'].value_counts()[1]
+died = df['Survived'].value_counts()[0]
+
+# Create a bar chart
+plt.bar(['Survived', 'Died'], [survived, died])
+plt.xlabel('Status')
+plt.ylabel('Count')
+plt.title('Who All Died and Survived')
+plt.show()
+print("Plot created successfully!")

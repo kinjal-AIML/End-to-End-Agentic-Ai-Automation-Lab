@@ -35,9 +35,20 @@ async def run_analyzer_gpt(docker, ollama_model_client, task):
         
         async for messages in team.run_stream(task=task):
             if isinstance(messages, TextMessage):
-                st.markdown(f"--: {messages.content}")
+                if messages.source.startswith("user"):
+                    with st.chat_message("user", avatar="👤"):
+                        st.markdown(messages.content)
+                elif messages.source.startswith("Data_Analyzer_Agent"):
+                    with st.chat_message("Data Analyzer", avatar="🤖"):
+                        st.markdown(messages.content)
+                        
+                elif messages.source.startswith("Python_Code_Executor"):
+                    with st.chat_message("Code Executor", avatar="🧑‍💻"):
+                        st.markdown(messages.content)
+                        
+                        
             elif isinstance(messages, TaskResult):
-                st.markdown(messages.stop_reason)
+                st.markdown(f"Stop Reason is : {messages.stop_reason}")
         
         return None
     
@@ -66,6 +77,9 @@ if task:
         
         if error:
             st.error(f"An error occurred: {error}")
+            
+        if os.path.exists("temp/output.png"):
+            st.image("temp/output.png", caption="Output Image")
     else:
         st.error("Please uploaded the file and provide the task.")
 

@@ -1,0 +1,48 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+# Load the dataset into a pandas DataFrame
+df = pd.read_csv('data.csv')
+
+# Print all column names in the DataFrame
+print("Column Names:")
+for i, col in enumerate(df.columns):
+    print(f"{i+1}: {col}")
+
+# Ask user to choose the target variable
+target_col_index = int(input("Enter the index of the target variable (column number): ")) - 1
+
+# Split the dataset into features (X) and target variable (y)
+X = df.drop([df.columns[target_col_index]], axis=1)
+y = df[df.columns[target_col_index]]
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize a Linear Regression model
+model = LinearRegression()
+
+# Train the model using the training data
+model.fit(X_train, y_train)
+
+# Make predictions on the testing data
+y_pred = model.predict(X_test)
+
+# Evaluate the model's accuracy using metrics such as MAE, MSE, and R-squared
+mae = mean_absolute_error(y_test, y_pred)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f'Mean Absolute Error (MAE): {mae:.4f}')
+print(f'Mean Squared Error (MSE): {mse:.4f}')
+print(f'R-squared: {r2:.4f}')
+
+# Print the model's coefficients
+print('Model Coefficients:')
+for i, coeff in enumerate(model.coef_):
+    print(f'Feature {i+1}: {coeff:.4f}')
+
+# Print the model's intercept
+print(f'Model Intercept: {model.intercept_}')

@@ -1,0 +1,31 @@
+import pandas as pd
+
+# Download the dataset if it doesn't exist
+try:
+    data = pd.read_csv('titanic.csv')
+except FileNotFoundError:
+    from google.colab import files
+    uploaded = files.upload()
+    
+    # You need to upload the titanic.csv file here (if using colab)
+    # or download it manually and put in the current working directory
+    
+data = pd.read_csv('titanic.csv')
+
+# Filter for who all died and survived
+survived_count = data[data['Survived'] == 1].shape[0]
+died_count = data[data['Survived'] != 1].shape[0]
+
+# Create a bar chart
+import matplotlib.pyplot as plt
+
+plt.bar(['Survived', 'Died'], [survived_count, died_count])
+plt.xlabel('Status')
+plt.ylabel('Count')
+plt.title('Survival Status of Passengers')
+print("Plot saved as output.png")
+plt.savefig('output.png')
+
+# Print the counts for reference
+print(f"Number of passengers who survived: {survived_count}")
+print(f"Number of passengers who died: {died_count}")

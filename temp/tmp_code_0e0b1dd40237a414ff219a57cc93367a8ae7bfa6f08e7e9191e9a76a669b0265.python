@@ -1,0 +1,18 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read the csv file
+df = pd.read_csv('data.csv')
+
+# Count the number of survived and dead passengers
+survived_count = df['Survived'].value_counts()[1]
+dead_count = df['Survived'].value_counts()[0]
+
+# Create a bar chart
+plt.bar(['Survived', 'Dead'], [survived_count, dead_count])
+plt.xlabel('Status')
+plt.ylabel('Count')
+plt.title('Survived and Dead Passengers')
+plt.savefig('output.png')
+
+print("Plot saved as output.png")

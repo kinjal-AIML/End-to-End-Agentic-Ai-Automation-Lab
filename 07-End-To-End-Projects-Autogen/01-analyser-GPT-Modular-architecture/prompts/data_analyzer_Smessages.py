@@ -20,7 +20,8 @@ DATA_ANALYZER_SYSTEM_MESSAGES = """
     ```bash
     pip install pandas numpy matplotlib
     ```
-    5. If the code run successfully, then analyze the output and continue as needed.
+    5. if you are asked to create and image, please make sure tha you create the image as output.png and save it into the working directory.
+    6. If the code run successfully, then analyze the output and continue as needed.
     
     Once we have complete all the task, please mention "STOP" after explaining in depth the final answer.
     
