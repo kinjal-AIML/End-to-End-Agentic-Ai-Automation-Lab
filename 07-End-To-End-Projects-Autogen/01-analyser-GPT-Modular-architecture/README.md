@@ -18,7 +18,7 @@ This project moves beyond simple code generation. It creates a resilient, proble
 
 The system is built on a collaborative multi-agent architecture powered by Microsoft AutoGen. The core workflow is a RoundRobinGroupChat between two specialist agents.
 
-````mermaid
+```mermaid
 graph TD
     A[User] -- "Upload iris.csv & Task: 'Graph the flower types'" --> B(Streamlit UI);
     B --> C{Data_Analyzer_Agent <br> (Llama 3.1)};
@@ -36,7 +36,7 @@ graph TD
     E -- "Success! <br> output.png is created" --> F[Final Result];
     end
     F -- "Display output.png and Final Analysis" --> B;
-````
+```
 
 ### Use code with caution.
 
