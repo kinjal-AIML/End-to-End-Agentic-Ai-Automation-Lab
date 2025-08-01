@@ -73,7 +73,7 @@ graph TD
 ## 📂 Project Structure
 
 ```
-analyzer-gpt/
+01-analyser-GPT-Modular-architecture/
 ├── agents/                  # Definitions for the AutoGen agents
 │   ├── code_executor_agent.py
 │   └── data_analyser_agent.py
@@ -109,8 +109,9 @@ Follow these steps to set up and run Analyzer GPT on your local machine.
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/analyzer-gpt.git
-cd analyzer-gpt
+git clone https://github.com/MDalamin5/End-to-End-Agentic-Ai-Automation-Lab
+cd 07-End-To-End-Projects-Autogen
+cd 01-analyser-GPT-Modular-architecture
 ```
 
 Set up a Python virtual environment:
