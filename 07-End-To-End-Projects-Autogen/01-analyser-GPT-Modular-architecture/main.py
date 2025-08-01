@@ -3,7 +3,6 @@ from teams.analyzer_gpt import getDataAnalyzerTeam
 from config.docker_util import start_docker_container, stop_docker_container, getDockerCommandLineExecutor
 from model.ollama_model_clint import get_ollama_model_clint
 
-
 async def main():
     ollama_model_clint = get_ollama_model_clint()
     docker = getDockerCommandLineExecutor()
