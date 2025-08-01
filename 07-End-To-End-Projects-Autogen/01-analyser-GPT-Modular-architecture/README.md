@@ -16,27 +16,30 @@ This project moves beyond simple code generation. It creates a resilient, proble
 
 ## 🏗️ How It Works: The Agentic Architecture
 
-The system is built on a collaborative multi-agent architecture powered by Microsoft AutoGen. The core workflow is a RoundRobinGroupChat between two specialist agents.
+The system is built on a collaborative multi-agent architecture powered by **Microsoft AutoGen**. The core workflow is a `RoundRobinGroupChat` between two specialist agents.
 
 ```mermaid
 graph TD
     A[User] -- "Upload iris.csv & Task: 'Graph the flower types'" --> B(Streamlit UI);
-    B --> C{Data_Analyzer_Agent <br> (Llama 3.1)};
-    C -- "Plan: Use pandas and matplotlib. <br> ```python <br> import pandas as pd...<br> plt.savefig('output.png') <br> ```" --> D{Python_Code_Executor_Agent};
+    
+    B --> C{"Data_Analyzer_Agent <br> (Llama 3.1)"}; 
+    
+    C -- "Plan: Generate Python code <br> (using pandas, matplotlib)" --> D{Python_Code_Executor_Agent};
     D -- "Run Code in Docker Container" --> E(Docker Environment);
+    
     subgraph "Execution & Feedback Loop"
-    E -- "Error: ModuleNotFoundError: no module named matplotlib" --> D;
-    D -- "Return Error to Analyzer" --> C;
-    C -- "Diagnosis: Library missing. <br> Action: Install library. <br> ```bash <br> pip install matplotlib <br> ```" --> D;
-    D -- "Run Install Command" --> E;
-    E -- "Success" --> D;
-    D -- "Rerun Original Python Code" --> C;
-    C -- "Resend Python Code" --> D;
-    D -- "Run Code in Docker Container" --> E;
-    E -- "Success! <br> output.png is created" --> F[Final Result];
+        E -- "Error: ModuleNotFoundError" --> D;
+        D -- "Return Error to Analyzer" --> C;
+        C -- "Diagnosis: Library missing <br> Generate 'pip install' command" --> D;
+        D -- "Run Install Command" --> E;
+        E -- "Success" --> D;
+        D -- "Report Success to Analyzer" --> C;
+        C -- "Resend Original Python Code" --> D;
+        D -- "Rerun Code in Docker" --> E;
+        E -- "Success! <br> output.png is created" --> F[Final Result];
     end
-    F -- "Display output.png and Final Analysis" --> B;
-```
+    
+    F -- "Display output.png & Final Analysis" --> B;
 
 ### Use code with caution.
 
