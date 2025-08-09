@@ -30,3 +30,4 @@ autogen-agentchat
 autogen-ext
 autogen-core
 autogen-ext[docker]
+autogen-ext[mcp]
