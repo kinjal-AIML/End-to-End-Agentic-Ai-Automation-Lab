@@ -1,0 +1,37 @@
+{
+	"servers": {
+		"my-mcp-server-6f06decd": {
+			"type": "stdio",
+			"command": "python",
+			"args": [
+				"-m",
+				"mcp_server_time"
+			]
+		},
+		"my-mcp-server-4a411587": {
+			"type": "stdio",
+			"command": "python",
+			"args": [
+				"-m",
+				"serper_mcp_server"
+			],
+			"env": {
+				"SERPER_API_KEY": ""
+			}
+		},
+		"my-mcp-server-fa5b656a": {
+			"type": "stdio",
+			"command": "python",
+			"args": [
+				"-m",
+				"serper_mcp_server"
+			],
+			"env": {
+				"SERPER_API_KEY": ""
+			}
+		}
+	},
+ 
+ 
+	"inputs": []
+}
