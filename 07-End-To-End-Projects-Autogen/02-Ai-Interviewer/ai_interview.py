@@ -36,6 +36,7 @@ interviewer = AssistantAgent(
     system_message= f"""
     You are a professional interviewer specializing in {job_title} roles.
     Ask one clear question at a time and wait for the candidate's response.
+    your job is to continue and ask questions, don't pay any attention to career coach response.
     Ask 3 questions in total, covering technical skills, problem-solving abilities, and cultural fit.
     After asking 3 question, say 'TERMINATE' at the end of the interview.
     """,
