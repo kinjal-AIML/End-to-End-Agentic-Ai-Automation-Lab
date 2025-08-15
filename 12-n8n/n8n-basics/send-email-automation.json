@@ -1,0 +1,176 @@
+{
+  "name": "first workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# ***Bismillah***\n\n",
+        "height": 80,
+        "width": 176,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2208,
+        -944
+      ],
+      "typeVersion": 1,
+      "id": "4f543172-17ae-46a3-b8d1-454ad726f3f1",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Form Submission').item.json['What is your email.'] }}",
+        "subject": "This is a test email-ignore it",
+        "emailType": "text",
+        "message": "={{ $json.message.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1328,
+        -496
+      ],
+      "id": "fad3cee6-7f96-42aa-b07e-5c95b78dbbd2",
+      "name": "Send a message",
+      "webhookId": "2dd459e1-0511-4363-9d76-4156b33f1827",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "pRkXBiDlbmcjN1Fb",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Test Workflow",
+        "formDescription": "A form to test the workflow of n8n",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "What is your full Name",
+              "placeholder": "e.g. Md Al Amin",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Your age?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "15-20"
+                  },
+                  {
+                    "option": "21-30"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "What is your university name.",
+              "placeholder": "e.g. North South University.",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "What is your email.",
+              "fieldType": "email",
+              "placeholder": "hello@gmail.com",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -1904,
+        -496
+      ],
+      "id": "e33bd66e-06a9-4221-8e7d-051398d4db7a",
+      "name": "Form Submission",
+      "webhookId": "a4a15ca4-89a1-405a-b3e8-585d6e29088b"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a highly qualified email writer, and you write a professional email.\nI want you to draft a good email to be sent to the below details and make sure its will be professional.\nand his name is  {{ $json['What is your full Name'] }}\nand is email: {{ $json['What is your email.'] }}\nsubmitted at: {{ $json.submittedAt }}\n\nuseing avove send a very good greeting emmail to the user.\n\nSign it as below\n- Aminul islam\ncompany: GTR Bangladesh\nphone: 01733339998"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -1664,
+        -496
+      ],
+      "id": "0a3d7c97-3654-4d8f-a9c8-44ba2d1a8402",
+      "name": "OPNEAI NODE",
+      "credentials": {
+        "openAiApi": {
+          "id": "LcVhksHPxNMK8ILn",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Form Submission": {
+      "main": [
+        [
+          {
+            "node": "OPNEAI NODE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OPNEAI NODE": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bca2e567-a25e-48bc-b43d-fe2bb82ca1d9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6dca38a0876c9d75bae0508dc33eb666c79d90712ecda69f34d45800027be680"
+  },
+  "id": "KHDhfSbOv1hwULgg",
+  "tags": [
+    {
+      "createdAt": "2025-08-15T14:28:27.490Z",
+      "updatedAt": "2025-08-15T14:28:27.490Z",
+      "id": "vbgr3JMcDLX6rMd0",
+      "name": "lets go to learn n8n"
+    }
+  ]
+}
