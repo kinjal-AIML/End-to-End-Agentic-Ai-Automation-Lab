@@ -38,11 +38,18 @@ async def main():
     model = get_ollama_model()
 
     async with McpWorkbench(server_params=params) as workbench:
+        """To get all available tools list"""
+        print("----------------Tools list------------------")
+        tools = await workbench.list_tools()
+        print(tools)
+        print("----------------Tools list------------------")
+
         agent = AssistantAgent(
             name="get_time_agent",
             system_message="You are helpful assistant. You have time mcp server to get current time based on the locations.",
             model_client=model,
-            workbench=workbench
+            workbench=workbench,
+            reflect_on_tool_use=True
         )
 
         task = "What is the time right now in Dhaka."
