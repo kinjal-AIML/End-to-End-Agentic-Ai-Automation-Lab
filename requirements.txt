@@ -31,3 +31,7 @@ autogen-ext
 autogen-core
 autogen-ext[docker]
 autogen-ext[mcp]
+fastapi
+uvicorn
+flask
+flask_cors
