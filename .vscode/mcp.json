@@ -6,6 +6,16 @@
 			"args": [
 				"mcp-server-time"
 			]
+		},
+		"my-mcp-server-56befebd": {
+			"type": "stdio",
+			"command": "uvx",
+			"args": [
+				"serper-mcp-server"
+			],
+			"env": {
+                "SERPER_API_KEY": "your api key"
+            }
 		}
 	},
 	"inputs": []
