@@ -9,6 +9,7 @@ load_dotenv()
 
 NOTION_API_KEY = os.getenv("NOTION_SECRET")
 
+"""
 {
   "mcpServers": {
     "notionMCP": {
@@ -17,6 +18,7 @@ NOTION_API_KEY = os.getenv("NOTION_SECRET")
     }
   }
 }
+"""
 
 async def config():
     params = StdioServerParams(
