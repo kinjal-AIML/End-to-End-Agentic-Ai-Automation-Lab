@@ -5,7 +5,7 @@ from autogen_core.models import UserMessage, ModelInfo
 
 # Assuming your Ollama server is running locally on port 11434.
 ollama_model_client = OllamaChatCompletionClient(
-        model="llama3.1",
+        model = "qwen3:14b",
         host="http://127.0.0.1:11434/"
     )
 
@@ -14,6 +14,7 @@ ollama_model_client = OllamaChatCompletionClient(
 def get_model_clint():
     ollama_model_client = OllamaChatCompletionClient(
         model="llama3.1",
+        # model = "qwen3:14b",
         host="http://127.0.0.1:11434/"
     )
     return ollama_model_client

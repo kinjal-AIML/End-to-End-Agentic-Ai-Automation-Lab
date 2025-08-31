@@ -94,7 +94,7 @@ async def orchestrate(team, task):
 
 async def main():
     team = await config()
-    task = "write a simple paragraph about machinelearning in the 'Machine_learning' titled page. "
+    task = "Create a new page using available tools and the page title is 'DeepLearning'."
 
     async for msg in orchestrate(team, task):
         print("-"*120)
