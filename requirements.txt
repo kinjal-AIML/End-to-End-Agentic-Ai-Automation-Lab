@@ -35,3 +35,4 @@ fastapi
 uvicorn
 flask
 flask_cors
+langchain-mcp-adapters
