@@ -40,16 +40,16 @@ async def main():
                 "transport": "stdio" # Use standard input/output for communication.
             },
             
-            # You can still include your other servers
-            "math": {
-                "command": "python",
-                "args": ["mathserver.py"],  # Ensure this file is in the same directory
-                "transport": "stdio",
-            },
-            "weather": {
-                "url": "http://localhost:8000/mcp",  # Assumes this server is running separately
-                "transport": "streamable_http",
-            }
+            # # You can still include your other servers
+            # "math": {
+            #     "command": "python",
+            #     "args": ["mathserver.py"],  # Ensure this file is in the same directory
+            #     "transport": "stdio",
+            # },
+            # "weather": {
+            #     "url": "http://localhost:8000/mcp",  # Assumes this server is running separately
+            #     "transport": "streamable_http",
+            # }
         }
     )
 
@@ -64,7 +64,7 @@ async def main():
     
     # Initialize the language model you want to use
     # model = ChatGroq(model="openai/gpt-oss-20b")
-    model = ChatOllama(model="llama3.1")
+    model = ChatOllama(model="qwen3:14b")
 
     # Create a ReAct agent that can use the fetched tools
     agent_executor = create_react_agent(model, tools)
@@ -74,13 +74,14 @@ async def main():
     
     # Example 1: Using the Google Serper search tool
     prompt_search = (
-        "Extract the best software company in Dhaka and its info, including:\n"
+        "Extract the wolton hith tech company, including:\n"
         "- Company name\n"
         "- Location/address\n"
         "- Chairman/CEO info\n"
         "- Social media links\n"
         "- Best product/service\n"
         "- Other relevant information"
+        "-decision maker "
     )
     print(f"--- User Query: {prompt_search} ---")
     
@@ -91,16 +92,16 @@ async def main():
     print(search_response['messages'][-1].content)
     print("------------------------\n")
 
-    # Example 2: Using the math tool
-    prompt_math = "what's (12 + 8) * 5?"
-    print(f"--- User Query: {prompt_math} ---")
+    # # Example 2: Using the math tool
+    # prompt_math = "what's (12 + 8) * 5?"
+    # print(f"--- User Query: {prompt_math} ---")
     
-    math_response = await agent_executor.ainvoke(
-        {"messages": [{"role": "user", "content": prompt_math}]}
-    )
-    print("\n--- Agent Response ---")
-    print(math_response['messages'][-1].content)
-    print("------------------------\n")
+    # math_response = await agent_executor.ainvoke(
+    #     {"messages": [{"role": "user", "content": prompt_math}]}
+    # )
+    # print("\n--- Agent Response ---")
+    # print(math_response['messages'][-1].content)
+    # print("------------------------\n")
     
     # Close the connections to the servers when done
     # await client.close()
