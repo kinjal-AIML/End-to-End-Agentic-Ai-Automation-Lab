@@ -1,0 +1,227 @@
+{
+  "name": "api-accessing-webhook",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -176
+      ],
+      "id": "9d442175-a76b-4f9f-8c64-6a33d76cd33c",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://catfact.ninja/fact",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        144,
+        -160
+      ],
+      "id": "45d10d32-dc3c-44af-9a55-992b7adf7390",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=This is grate cats Facts\n{{ $json.fact }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        400,
+        -160
+      ],
+      "id": "520122ad-8712-4450-bc0b-9153223563af",
+      "name": "Discord",
+      "webhookId": "0f01719e-2dc0-4510-a313-04554cd63811",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "as0LOyCWdFL0JTM8",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "get-cat-fact",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        80,
+        416
+      ],
+      "id": "0986f907-7acf-4f9b-94aa-f9d9391684de",
+      "name": "Webhook",
+      "webhookId": "7aac9ab5-284f-4503-9c9e-ca508ba12a2a"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "Test line",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        496,
+        416
+      ],
+      "id": "31f39a33-8ac3-4fa9-bf58-7208e1ffcd5a",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=This is grate cats Facts\n{{ $json.headers.host }}\n{{ $json.headers.accept }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        704,
+        208
+      ],
+      "id": "04e4eb98-5f65-40c3-b655-4c793934cf2f",
+      "name": "Discord1",
+      "webhookId": "0f01719e-2dc0-4510-a313-04554cd63811",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "as0LOyCWdFL0JTM8",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Api Hit",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -32,
+        -272
+      ],
+      "typeVersion": 1,
+      "id": "ca02b450-aca9-4e56-820e-6b186755b866",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "**my App to n8n api hit**\n",
+        "height": 80,
+        "width": 182,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        80,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "e59b5fe8-ce2c-4fc6-a76a-96841484f3d2",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        208
+      ],
+      "id": "feeab7b4-c833-4676-9cd4-2fb16926038d",
+      "name": "Wait",
+      "webhookId": "0c272f82-f0e6-4e71-be40-5cdb46620d5f"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        [
+          {
+            "node": "Discord1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "287b1505-814a-426b-81f3-e8f50967cc2f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4f2ab69dedda4da17aaf53e5005553765c50213bce7cde6e0ba73b51ced58706"
+  },
+  "id": "PkEjS3jQweht9e3A",
+  "tags": [
+    {
+      "name": "e2e",
+      "id": "JObv1UXBZgNmJuMB",
+      "createdAt": "2025-09-18T05:55:36.418Z",
+      "updatedAt": "2025-09-18T05:55:36.418Z"
+    }
+  ]
+}
