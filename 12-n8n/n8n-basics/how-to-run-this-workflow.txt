@@ -1,0 +1,1 @@
+just download this file and upload as json file in n8n web or docker version.
