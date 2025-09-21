@@ -1,0 +1,264 @@
+{
+  "name": "Personal Live News Assistant With Telegram.",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "responseMode": "responseNodes"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1232,
+        -176
+      ],
+      "id": "2261a6eb-1d9f-41e8-8ebb-59b28ae54ba0",
+      "name": "When chat message received",
+      "webhookId": "6a90c157-ee4b-4e99-b00f-9a41fc4a512a"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1232,
+        48
+      ],
+      "id": "a7a64c51-0dd8-4c45-90f8-f499d8e6dd4c",
+      "name": "Telegram Trigger",
+      "webhookId": "7804fd35-70ee-4552-829e-bc56e151855d",
+      "credentials": {
+        "telegramApi": {
+          "id": "ZitYez2TfU13w7uM",
+          "name": "Telegram account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "query": "={{ $json.message.text }}{{ $json.chatInput }}",
+        "options": {
+          "max_results": 5,
+          "days": 5
+        }
+      },
+      "type": "@tavily/n8n-nodes-tavily.tavily",
+      "typeVersion": 1,
+      "position": [
+        -1008,
+        -352
+      ],
+      "id": "5b3a57bb-ecfd-4623-a87d-6579d09a6a9c",
+      "name": "Search",
+      "credentials": {
+        "tavilyApi": {
+          "id": "JYnGettH4W4bFcAx",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.combinedString }}",
+        "options": {
+          "systemMessage": "=You are a helpful assistant. your task is summarize the output based on the user input.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -416,
+        -352
+      ],
+      "id": "ee9b6ab6-c8ac-49c7-a452-7bc859736d1e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        -416
+      ],
+      "id": "0413bcb0-4573-42ca-baa0-11b78bce1284",
+      "name": "Send a text message",
+      "webhookId": "819559d3-3abd-4ef7-a6da-4a6c45c2257d",
+      "credentials": {
+        "telegramApi": {
+          "id": "ZitYez2TfU13w7uM",
+          "name": "Telegram account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -160
+      ],
+      "id": "1b7703b1-cce4-44e4-8db5-8569600e6ccb",
+      "name": "Respond to Chat"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -672,
+        -128
+      ],
+      "id": "e36ba0a6-4653-452b-9a5b-2e7d84568fe8",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "lI0MMJxPA9xRfunV",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "qwen/qwen3-32b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        -80
+      ],
+      "id": "494f6cef-e74e-4fac-96c4-a50e74c5b548",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "jnRcIDD90eNf5Z8u",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst combinedResults = items.map((item) => {\n  const results = item?.json?.results;\n  let combinedString = \"\";\n  results.forEach((result) => {\n    combinedString += `${result.title} ${result.url} ${result.content} `;\n  });\n  return { combinedString };\n});\nreturn combinedResults;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -800,
+        -352
+      ],
+      "id": "35466f87-a6c1-42de-8baa-72d10894bf51",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        []
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "78806fea-bd69-4e65-b330-5166d9322dce",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4f2ab69dedda4da17aaf53e5005553765c50213bce7cde6e0ba73b51ced58706"
+  },
+  "id": "MmjW4V9YpXxqKASf",
+  "tags": [
+    {
+      "createdAt": "2025-09-20T10:20:33.236Z",
+      "updatedAt": "2025-09-20T10:20:33.236Z",
+      "id": "gC2yb89YsIinHxpt",
+      "name": "projects"
+    }
+  ]
+}
