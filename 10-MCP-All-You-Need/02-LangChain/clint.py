@@ -20,6 +20,7 @@ async def main():
     # Also, ensure your SERPER_API_KEY is set in your .env file.
     serper_api_key = os.getenv("SERPER_API_KEY")
     groq_api_key = os.getenv("GROQ_API_KEY")
+    firecrawl_api_key = os.getenv("FIRECRAWL_API_KEY")
 
     if not serper_api_key or not groq_api_key:
         print("Please make sure SERPER_API_KEY and GROQ_API_KEY are set in your .env file.")
@@ -39,6 +40,15 @@ async def main():
                 },
                 "transport": "stdio" # Use standard input/output for communication.
             },
+
+            # "firecrawl": {
+            #     "command": "npx",              
+            #     "args": ["-y", "firecrawl-mcp"], 
+            #     "env": {
+            #         "FIRECRAWL_API_KEY": firecrawl_api_key 
+            #     },
+            #     "transport": "stdio"          
+            # }
             
             # # You can still include your other servers
             # "math": {
@@ -74,14 +84,14 @@ async def main():
     
     # Example 1: Using the Google Serper search tool
     prompt_search = (
-        "Extract the wolton hith tech company, including:\n"
+        "Extract the 'Walton Hi-Tech Industries PLC', including:\n"
         "- Company name\n"
         "- Location/address\n"
         "- Chairman/CEO info\n"
         "- Social media links\n"
         "- Best product/service\n"
         "- Other relevant information"
-        "-decision maker "
+        "- decision maker "
     )
     print(f"--- User Query: {prompt_search} ---")
     
