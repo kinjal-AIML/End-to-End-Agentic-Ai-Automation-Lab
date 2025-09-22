@@ -1,0 +1,379 @@
+{
+  "name": "telegram research assitant",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1440,
+        128
+      ],
+      "id": "ad6bb2f1-c750-44ad-a3ee-f02de5038268",
+      "name": "Telegram Trigger1",
+      "webhookId": "91d9a7d9-f77f-4cfd-9f1f-4e84372b5f79",
+      "credentials": {
+        "telegramApi": {
+          "id": "ZitYez2TfU13w7uM",
+          "name": "Telegram account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=You are a helpful assistant who can help in below things.\n1. Calender - you create to get the events (many events as well) by using the tool provided.\n- make sure you add a proper name and descriptions of the envent when creating it.\n\n2. Tasks - You can create or get tasks (many events as well) by using the tool provided.\n- completion date is in timestam format example: 2025-09-23T00:00:00.000Z\n\n3. Research Assisant You will have to determine which query user want to get latest results, call the tabily tool provided and summarize and return the same.\n\nYou always call one of the tool when given a request. if there is any other request, please say \"Requet Invalid\"\n\nthe date is today is: {{ $now }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -1024,
+        128
+      ],
+      "id": "e8c08678-c922-4402-93da-2cc06b478e80",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger1').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -288,
+        224
+      ],
+      "id": "3f36125a-7568-4d5e-835f-54a57b464afb",
+      "name": "Send a text message1",
+      "webhookId": "019c1f70-8d33-4e88-9546-925005c66cb0",
+      "credentials": {
+        "telegramApi": {
+          "id": "ZitYez2TfU13w7uM",
+          "name": "Telegram account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "qwen/qwen3-32b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -1296,
+        544
+      ],
+      "id": "9a721243-af0e-4dcd-ab89-afe5d992304f",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "jnRcIDD90eNf5Z8u",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
+        "contextWindowLength": 4
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -1136,
+        560
+      ],
+      "id": "e508d484-5343-419d-91dc-e33647f0e3d1",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Query', ``, 'string') }}",
+        "options": {
+          "time_range": "week"
+        }
+      },
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [
+        -912,
+        560
+      ],
+      "id": "4ffade09-f384-4b78-9500-41a11881ffc8",
+      "name": "Search in Tavily",
+      "credentials": {
+        "tavilyApi": {
+          "id": "JYnGettH4W4bFcAx",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "nsu.alamin5@gmail.com",
+          "mode": "list",
+          "cachedResultName": "nsu.alamin5@gmail.com"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {
+          "description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Description', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -752,
+        560
+      ],
+      "id": "1ce28b1b-be00-4537-812a-a0de998a9a41",
+      "name": "Create an event in Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "6lCT7diDFNLy9cjZ",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Calendar', ``, 'string') }}",
+          "mode": "id",
+          "__regex": "(^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)"
+        },
+        "limit": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Limit', ``, 'number') }}",
+        "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('After', ``, 'string') }}",
+        "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Before', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -576,
+        560
+      ],
+      "id": "8dd4bb56-286d-4cd5-9629-966b48fc5f29",
+      "name": "Get many events in Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "6lCT7diDFNLy9cjZ",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "task": "ZXJ6NDF0Vm1SY0VLS3lycQ",
+        "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Title', ``, 'string') }}",
+        "additionalFields": {
+          "completed": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Completion_Date', ``, 'string') }}",
+          "dueDate": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Due_Date', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleTasksTool",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        560
+      ],
+      "id": "1009fb83-3b28-44e4-aed5-01beaf627277",
+      "name": "Create a task in Google Tasks",
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "V5bbasQmUmnQN6lt",
+          "name": "Google Tasks account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "task": "ZXJ6NDF0Vm1SY0VLS3lycQ",
+        "limit": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Limit', ``, 'number') }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleTasksTool",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        560
+      ],
+      "id": "4c923a1f-82ac-450b-ae16-b8bb4d48dec4",
+      "name": "Get many tasks in Google Tasks",
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "V5bbasQmUmnQN6lt",
+          "name": "Google Tasks account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Tools\n",
+        "height": 256,
+        "width": 880,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -960,
+        480
+      ],
+      "typeVersion": 1,
+      "id": "64165dbd-5863-400d-bc43-dc31eb28aaea",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Telegram Trigger  Node\n",
+        "height": 224,
+        "width": 336
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1616,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "b8936085-ddec-4037-9a3c-0ec97fefa99d",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search in Tavily": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a task in Google Tasks": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many tasks in Google Tasks": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "55bba837-c0bb-4612-9694-be0d2a348a0c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4f2ab69dedda4da17aaf53e5005553765c50213bce7cde6e0ba73b51ced58706"
+  },
+  "id": "4yV07eGlbUbpURF5",
+  "tags": [
+    {
+      "createdAt": "2025-09-20T10:20:33.236Z",
+      "updatedAt": "2025-09-20T10:20:33.236Z",
+      "id": "gC2yb89YsIinHxpt",
+      "name": "projects"
+    }
+  ]
+}
