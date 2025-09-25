@@ -1,0 +1,279 @@
+{
+  "name": "multi-agent-researcher",
+  "nodes": [
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -688,
+        176
+      ],
+      "id": "584403e6-c402-424a-9c21-1e997ded78d8",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "jnRcIDD90eNf5Z8u",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -480,
+        208
+      ],
+      "id": "9538d46f-b95c-4022-b4a6-e98c3161a29a",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -816,
+        -96
+      ],
+      "id": "1d233f52-7cab-4d2b-a81f-5914d78cd5c0",
+      "name": "When chat message received",
+      "webhookId": "489db990-95f0-4322-a77d-b9240953f031"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant, who can research the user topics. As your give a topics and you will research and make a proper plant to how to write. as instruction and you will pass the writing raw data. then your data is use in writer assistant to write the full content."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -512,
+        -176
+      ],
+      "id": "76088622-8da9-45ec-a0e2-806f19b5612b",
+      "name": "Researcher"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=hare is the topics to write to content about this topincs: {{ $json.output }}",
+        "options": {
+          "systemMessage": "You are a helpful writer assistant assistant your task is write the content based on the command of research assistant."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -80,
+        -176
+      ],
+      "id": "2c6a88c3-726e-4f38-bb81-b2862f1c8d4f",
+      "name": "Writer"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Polisth this make a comple content:\n{{ $json.output }}",
+        "options": {
+          "systemMessage": "You are a helpful assistant who can polish the content as you get from write assistant."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        -128
+      ],
+      "id": "8aceaa4b-ae9e-4c03-bd55-40bd42e6e57f",
+      "name": "Reviewer & Polisher"
+    },
+    {
+      "parameters": {
+        "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Query', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        224
+      ],
+      "id": "a6c97e7a-08e3-47e5-bdb0-70fa518e3b28",
+      "name": "Search in Tavily",
+      "credentials": {
+        "tavilyApi": {
+          "id": "JYnGettH4W4bFcAx",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        0,
+        224
+      ],
+      "id": "a12f58dc-af09-4ece-87dc-26a03ae69502",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "MV64wAmqtCa2zSFS",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## input: Write a post about reacent AI\n\n# output:\n\nHere's a plan for a LinkedIn post about recent AI news, along with some raw data you can use:\\n\\n**Plan for LinkedIn Post:**\\n\\n1.  **Catchy Hook:** Start with an engaging question or a bold statement about the rapid advancements in AI.\\n2.  **Highlight Key News/Trends:** Briefly mention 1-2 significant recent developments. Focus on impact and potential.\\n3.  **Discuss Implications/Opportunities:** How does this news affect various industries, professionals, or the future of work?\\n4.  **Call to Action/Engagement:** Encourage discussion, ask for opinions, or invite people to share their own insights.\\n5.  **Relevant Hashtags:** Include 3-5 relevant hashtags to increase visibility.\\n\\n**Raw Data for the Post:**\\n\\n*   **General AI Advancements:** AI research continues to push boundaries in machine learning, deep learning, computer vision, reinforcement learning, and natural language processing (NLP).\\n*   **LLM Agents for Debugging:** A new development called \"Panda\" uses LLM agents for performance debugging in databases. This is a best-practice case study for building autonomous agents.\\n*   **OpenAI's AI-Powered Hiring Platform:** OpenAI is reportedly launching an AI-powered hiring platform in mid-2026, aiming to match candidates with businesses, potentially competing with platforms like LinkedIn.\\n*   **Overall Trend:** The pace of AI innovation is accelerating, with significant implications across various sectors.\\n\\n**Draft LinkedIn Post (using the above data and plan):**\\n\\n---\\n\\n**Hook:** \"Has anyone else been keeping up with the dizzying pace of AI news lately? It feels like every day brings a new breakthrough!\"\\n\\n**Key News:** \"Just recently, I came across two fascinating developments:\\n1.  **'Panda' - LLM Agents for Database Debugging:** This is a brilliant example of autonomous agents in action, showing how AI can streamline complex tasks like performance debugging in databases. It's a real game-changer for efficiency!\\n2.  **OpenAI's Entry into Hiring:** Reports suggest OpenAI is developing an AI-powered hiring platform set to launch in 2026. This could revolutionize how candidates are matched with jobs, ushering in a new era of talent acquisition.\"\\n\\n**Implications/Opportunities:** \"These advancements highlight how AI isn't just a futuristic concept anymore; it's actively reshaping our present. From enhancing operational efficiency to transforming recruitment strategies, the impact is undeniable. What does this mean for our industries? For our careers? It's crucial to stay informed and adapt.\"\\n\\n**Call to Action:** \"What are your thoughts on these developments? Are you excited, cautious, or both? Share your perspectives in the comments below! 👇\"\\n\\n**Hashtags:** \"#AI #ArtificialIntelligence #MachineLearning #Innovation #FutureOfWork #TechNews #LinkedIn\"\\n\\n---",
+        "height": 512,
+        "width": 1040,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -608,
+        464
+      ],
+      "typeVersion": 1,
+      "id": "181b1913-264f-427c-85b7-3cae0606199b",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Researcher",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Writer",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Reviewer & Polisher",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Researcher",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Researcher": {
+      "main": [
+        [
+          {
+            "node": "Writer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Writer": {
+      "main": [
+        [
+          {
+            "node": "Reviewer & Polisher",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search in Tavily": {
+      "ai_tool": [
+        [
+          {
+            "node": "Researcher",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Reviewer & Polisher",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Writer",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Researcher",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reviewer & Polisher": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2fed3cb3-f6de-4ef5-b628-aad8a471af96",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4f2ab69dedda4da17aaf53e5005553765c50213bce7cde6e0ba73b51ced58706"
+  },
+  "id": "WSwrVlL16H43kLeF",
+  "tags": [
+    {
+      "createdAt": "2025-09-25T06:27:28.656Z",
+      "updatedAt": "2025-09-25T06:27:28.656Z",
+      "id": "8IfjPKPhVSQ4Y8EN",
+      "name": "blog"
+    },
+    {
+      "createdAt": "2025-09-25T06:27:22.527Z",
+      "updatedAt": "2025-09-25T06:27:22.527Z",
+      "id": "EZGXt6jmBjURrIGV",
+      "name": "email"
+    }
+  ]
+}
