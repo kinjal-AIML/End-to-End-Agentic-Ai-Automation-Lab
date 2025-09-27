@@ -1,0 +1,361 @@
+{
+  "name": "Condition-Multi-Agents",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -896,
+        -80
+      ],
+      "id": "9de8c2dc-f72b-4cb7-b3b6-da683d366bce",
+      "name": "When chat message received",
+      "webhookId": "0bbc35d7-0d9b-4b10-9b89-dee6ef9157c9"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        352
+      ],
+      "id": "7abeb896-b99a-4138-b541-cb5c98170c6f",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "MV64wAmqtCa2zSFS",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.chatInput }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "study",
+              "description": "if the question is related to study related as university, school related conversion."
+            },
+            {
+              "category": "tech",
+              "description": "If user talking about the technical related."
+            },
+            {
+              "category": "default",
+              "description": "if you think its not matches which existing category or not sure about or not enough confidence then its default category."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -608,
+        -96
+      ],
+      "id": "b7386bee-1405-41e8-afaf-445d913f5f10",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -96,
+        -240
+      ],
+      "id": "0fbd3555-e763-415f-b965-d8858089615c",
+      "name": "Send a message",
+      "webhookId": "656e8b53-5672-46b1-a470-effec6c826c3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "USgrZLwZweMtzhlZ",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -96,
+        96
+      ],
+      "id": "1c4285ce-cb3a-40a0-8381-e933a202b48c",
+      "name": "Promotion",
+      "webhookId": "656e8b53-5672-46b1-a470-effec6c826c3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "USgrZLwZweMtzhlZ",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -96,
+        -80
+      ],
+      "id": "eea833e0-a4e6-465e-89f8-be5df9fa6a5e",
+      "name": "Necessary to Task",
+      "webhookId": "656e8b53-5672-46b1-a470-effec6c826c3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "USgrZLwZweMtzhlZ",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        192,
+        -240
+      ],
+      "id": "1678e9e8-c9b5-4be3-ad3d-c84aba69b3ca",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "42b8c5f3-1369-4bb1-980d-18ec98ca5b90",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        240
+      ],
+      "id": "2c319f38-171f-41cd-86f2-f7718bea94ef",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "channelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        608,
+        -240
+      ],
+      "id": "24ac4c34-2f35-4d8e-b437-94c6d110c2e7",
+      "name": "Send a message1",
+      "webhookId": "a756f15e-5a4a-4864-8062-d8c9b065abe2"
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        240
+      ],
+      "id": "b9e9b352-2b0a-43d6-9ce1-7eb295c94d9a",
+      "name": "Send a text message",
+      "webhookId": "118cd2d7-713f-4554-b1c0-a600460782a3",
+      "credentials": {
+        "telegramApi": {
+          "id": "ZitYez2TfU13w7uM",
+          "name": "Telegram account 4"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Necessary to Task",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Promotion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Necessary to Task": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Promotion": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5bc43366-035b-4162-9edb-66799cdbfb89",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4f2ab69dedda4da17aaf53e5005553765c50213bce7cde6e0ba73b51ced58706"
+  },
+  "id": "ZAf1tVxC4H8Nd29P",
+  "tags": [
+    {
+      "createdAt": "2025-09-24T08:28:47.116Z",
+      "updatedAt": "2025-09-24T08:28:47.116Z",
+      "id": "0FJBTErQxA4nwBsp",
+      "name": "multi-agent"
+    }
+  ]
+}
