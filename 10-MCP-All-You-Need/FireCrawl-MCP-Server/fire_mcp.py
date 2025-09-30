@@ -46,11 +46,39 @@ async def main():
     print("-----------------------\n")
     
     # model = ChatGroq(model=os.getenv("OPENAI_MODEL"))
-    model = ChatOllama(model="llama3.1") # this is my local model.
+    model = ChatOllama(model="qwen3:14b") # this is my local model.
     agent_executor = create_react_agent(model, tools)
 
     
-    prompt_scrape = "Scrape the main content from the URL https://docs.firecrawl.dev/introduction and i need to understand of its different features. Like what is scrape, search, map, crawl. what is meaning of this four features. details explanation."
+    prompt_scrape = """
+    Extract business lead information from the website at the provided URL.
+        Return the result as structured below format with the following fields:
+
+        output format: 
+        "business_name": "",
+        "address": "",
+        "phone": "",
+        "email": "",
+        "website": "",
+        "social_links": []
+        
+
+If any field is not found, return it as an empty string or empty list.
+if can not fine phone number or other info then go to about page there will be contain phone number and full info.
+first look at the home if not get the info then find about page hopefully you will get the data.
+URL to process: http://www.bengalexpressbd.com
+
+the output is:
+    output format: 
+        "business_name": "",
+        "address": "",
+        "phone": "",
+        "email": "",
+        "website": "",
+        "social_links": []
+
+
+"""
     print(f"--- User Query: {prompt_scrape} ---")
     
     scrape_response = await agent_executor.ainvoke(

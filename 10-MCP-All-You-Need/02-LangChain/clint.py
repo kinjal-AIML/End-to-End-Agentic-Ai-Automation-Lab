@@ -83,16 +83,39 @@ async def main():
     # --- Step 4: Use the Agent ---
     
     # Example 1: Using the Google Serper search tool
-    prompt_search = (
-        "Extract the 'Walton Hi-Tech Industries PLC', including:\n"
-        "- Company name\n"
-        "- Location/address\n"
-        "- Chairman/CEO info\n"
-        "- Social media links\n"
-        "- Best product/service\n"
-        "- Other relevant information"
-        "- decision maker "
-    )
+    # prompt_search = (
+    #     "Extract the 'Walton Hi-Tech Industries PLC', including:\n"
+    #     "- Company name\n"
+    #     "- Location/address\n"
+    #     "- Chairman/CEO info\n"
+    #     "- Social media links\n"
+    #     "- Best product/service\n"
+    #     "- Other relevant information"
+    #     "- decision maker "
+    # )
+
+    prompt_search = """
+        Extract business lead information from the given website URL.  
+        Return the result strictly in the following format:
+
+        
+        "business_name": "",
+        "address": "",
+        "phone": "",
+        "email": "",
+        "website": "",
+        "social_links": []
+        
+
+        Instructions:
+        - First, check the home page for the required information.  
+        - If some fields are missing (e.g., phone, email, address), then also check the "About" or "Contact" page.  
+        - If information is still not available, leave the field as an empty string or empty list.  
+        - Always follow the output format exactly.
+
+        URL to process: http://www.bengalexpressbd.com
+        """
+
     print(f"--- User Query: {prompt_search} ---")
     
     search_response = await agent_executor.ainvoke(
