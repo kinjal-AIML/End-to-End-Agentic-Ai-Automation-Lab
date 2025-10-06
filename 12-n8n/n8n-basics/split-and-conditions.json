@@ -1,0 +1,385 @@
+{
+  "name": "split-and-conditions",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://www.squarepharma.com.bd/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1936,
+        -112
+      ],
+      "id": "fccfd055-00f9-490f-8937-89170e8c08e6",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst extractedData = items.map((item) => {\n  const data = item?.json?.data || '';\n\n  // 1) Social links (same approach but kept here for completeness)\n  const allLinks = data.match(/https?:\\/\\/[^\\s\"']+/g) || [];\n  const socialDomains = [\n    'facebook.com','fb.me','instagram.com','linkedin.com',\n    'twitter.com','x.com','youtube.com','t.me','threads.net',\n    'pinterest.com','tiktok.com','snapchat.com','whatsapp.com',\n    'discord.gg','reddit.com'\n  ];\n  const socialMediaLinks = [...new Set(allLinks.filter(link =>\n    socialDomains.some(domain => link.toLowerCase().includes(domain))\n  ))];\n\n  // 2) Bangladesh phone number extraction\n  // Mobile (covers formats like +8801712345678, 01712345678, 8801712345678, 01-71-2345678, etc.)\n  const bdMobileRegex = /(?:(?:\\+?88)?0?1[3-9][0-9][\\s\\-]?[0-9]{3}[\\s\\-]?[0-9]{4})/g;\n\n  // Landline (covers common area-code patterns like 02-XXXXXXX, 031-XXXXXXX, 071-XXXXXXX, etc.)\n  // This is intentionally permissive: area code (2-3 digits) + 6-7 digit local number\n  const bdLandlineRegex = /(?:(?:\\+?88)?0?[2-9][0-9]{1,2}[\\s\\-]?[0-9]{6,7})/g;\n\n  const mobiles = data.match(bdMobileRegex) || [];\n  const landlines = data.match(bdLandlineRegex) || [];\n\n  // Combine and remove duplicates\n  const phoneNumbersRaw = [...new Set([...mobiles, ...landlines])];\n\n  // 3) Normalization to E.164-like +880 format for Bangladeshi numbers\n  function normalizeBdNumber(raw) {\n    if (!raw) return raw;\n    // keep plus sign if exists, remove other non-digit characters\n    let cleaned = raw.replace(/[^\\d+]/g, '');\n\n    // If starts with '+880' — already normalized\n    if (cleaned.startsWith('+880')) return cleaned;\n\n    // If starts with '880' (no +), add +\n    if (cleaned.startsWith('880')) return '+' + cleaned;\n\n    // If starts with '0' -> replace leading 0 with +880 (0XXXXXXXXXX -> +880XXXXXXXXXX but we must avoid double 0)\n    if (cleaned.startsWith('0')) return '+88' + cleaned; // '0' becomes '+880...'\n\n    // If starts with '1' (missing leading 0) -> add +880\n    if (cleaned.startsWith('1')) return '+880' + cleaned;\n\n    // Fallback: just return cleaned\n    return cleaned;\n  }\n\n  const phoneNumbersNormalized = [...new Set(phoneNumbersRaw.map(normalizeBdNumber))];\n\n  return {\n    socialMediaLinks,\n    phoneNumbersRaw,\n    phoneNumbersNormalized\n  };\n});\n\nreturn extractedData;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1712,
+        -112
+      ],
+      "id": "555f2c5e-f16e-41d5-af05-b7306a166c29",
+      "name": "Social and Phone1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "socialMediaLinks, phoneNumbersNormalized",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1472,
+        -112
+      ],
+      "id": "13bba4a2-8c2b-4f49-97fc-fc7bef402d51",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -592,
+        16
+      ],
+      "id": "e49ea6a4-6cb3-4cfb-b421-c77f754d26ee",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "59dc3b2d-be7b-4697-a935-3eeb2c79d384",
+              "leftValue": "={{ Number($json.phoneNumbersNormalized.length) }}",
+              "rightValue": "={{ (13) }}",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "9e77e0d1-9cf3-4f2e-ba09-b7e986fbac10",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1056,
+        -112
+      ],
+      "id": "f6bd33d4-5ee3-495e-ac05-516703724e4a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "url": "=https://gtrbd.com/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -608,
+        -240
+      ],
+      "id": "1dda0e2b-ee77-4d2f-8746-b38d3c9b0866",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9d929bf2-d4c7-4842-ad81-c978248c6f63",
+              "name": "phoneNumbersNormalized",
+              "value": "={{ $json.phoneNumbersNormalized }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1264,
+        -112
+      ],
+      "id": "96ba9420-3bd6-476b-b71b-b48d10b81d86",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -832,
+        -208
+      ],
+      "id": "26eee9ee-564f-424e-9d47-a97b42b526ff",
+      "name": "Wait",
+      "webhookId": "d51b3907-4182-4bd9-80e9-71d216eead53"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9d929bf2-d4c7-4842-ad81-c978248c6f63",
+              "name": "test_line",
+              "value": "=[\"hello\", \"sir\", \"how\", \"are\", \"you\"]",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1440,
+        304
+      ],
+      "id": "9c19fe57-5799-4e56-927f-b7141a98ac45",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "test_line",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1136,
+        288
+      ],
+      "id": "15f13b04-0427-4820-b51b-979b531f9d8a",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "59dc3b2d-be7b-4697-a935-3eeb2c79d384",
+              "leftValue": "={{ $json.test_line }}",
+              "rightValue": "=hello",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "9e77e0d1-9cf3-4f2e-ba09-b7e986fbac10",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -816,
+        304
+      ],
+      "id": "93e68dcb-af54-4663-ac1e-2ecde4de04c6",
+      "name": "If1"
+    }
+  ],
+  "pinData": {
+    "Social and Phone1": [
+      {
+        "json": {
+          "socialMediaLinks": [
+            "http://www.facebook.com/pages/Square-Pharmaceuticals-Limited-Bangladesh/431131080274554",
+            "https://www.youtube.com/channel/UCD9nsILLNecjWC6Y2bu6Reg",
+            "https://www.linkedin.com/company/square-pharmaceuticals",
+            "http://www.youtube.com/player_api",
+            "https://www.youtube.com/embed/Faz3_MTUjLE?autoplay=1&&rel=0"
+          ],
+          "phoneNumbersRaw": [
+            "1310802745",
+            "4311310802",
+            "09613707070",
+            "+8802222283604",
+            "+8802222285870",
+            "+8802222285902",
+            "+8802222285910",
+            "+8802222285930",
+            "+8802222290990",
+            "+8802222291094",
+            "+8802222293641",
+            "+8802222295007",
+            "23935011"
+          ],
+          "phoneNumbersNormalized": [
+            "+8801310802745",
+            "4311310802",
+            "+8809613707070",
+            "+8802222283604",
+            "+8802222285870",
+            "+8802222285902",
+            "+8802222285910",
+            "+8802222285930",
+            "+8802222290990",
+            "+8802222291094",
+            "+8802222293641",
+            "+8802222295007",
+            "23935011"
+          ]
+        }
+      }
+    ]
+  },
+  "connections": {
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Social and Phone1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Social and Phone1": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4a3e427a-eefd-4ab9-a168-f3ddee466f6d",
+  "meta": {
+    "instanceId": "b889822ddbd369b7749d7a24e46bcf2768d2e1237dbea938ccece7a13b7b8218"
+  },
+  "id": "BXKTRORz2HY3RUU6",
+  "tags": []
+}

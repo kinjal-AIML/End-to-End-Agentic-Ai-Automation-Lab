@@ -1,0 +1,377 @@
+{
+  "name": "loop-in-n8n",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -672,
+        -192
+      ],
+      "id": "f8d2f93e-0646-4417-abbd-27351ad1f836",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -48,
+        -192
+      ],
+      "id": "9760ebad-0b53-46c4-b7f9-fdbecb806155",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -592,
+        192
+      ],
+      "id": "5fe77271-a23c-44e9-9fc5-158839fa3785",
+      "name": "When chat message received",
+      "webhookId": "f4ae5d0f-abf8-483a-8d05-63f1508f64ff"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.name }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Write a funny line based on his name."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        144,
+        -64
+      ],
+      "id": "2b4cb422-d12b-4d3b-a849-0c587f1d4a3d",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        144,
+        160
+      ],
+      "id": "84b46f7e-c731-4ef9-8ed5-c70e4a49ef6b",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "3gSKIbqvSNnYoKmm",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "user_info",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        -192
+      ],
+      "id": "ac8c039e-825d-4d91-bf0c-2d66ee6fd8da",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "58Ngh0uO0qirm22L",
+          "mode": "list",
+          "cachedResultName": "test-line",
+          "cachedResultUrl": "/projects/QhVmBOwnZ3OYD1pz/datatables/58Ngh0uO0qirm22L"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Split Out').item.json.name }}",
+            "City": "={{ $('Split Out').item.json.city }}",
+            "Email": "={{ $('Split Out').item.json.email }}",
+            "Comment_Name": "={{ $json.text }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Comment_Name",
+              "displayName": "Comment_Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "optimizeBulk": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        480,
+        144
+      ],
+      "id": "d8a70ed7-00de-4ba0-977f-293bcf82d118",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        704,
+        224
+      ],
+      "id": "0ebd08b7-6448-471b-97b4-d29f4e36bdbf",
+      "name": "Wait",
+      "webhookId": "76ed5ccd-d0e4-4416-a511-eaef36254eca"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aa556426-dbeb-4c63-b83a-0132f66cd32e",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "5eaf0860-f22a-46cc-b186-2094e748e0dc",
+              "name": "createdAt",
+              "value": "={{ $json.createdAt }}",
+              "type": "string"
+            },
+            {
+              "id": "4acba25a-c9ad-4d13-9acb-e542811c64e6",
+              "name": "Name",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "99f70c72-ac70-4c3d-87d0-82912935c31f",
+              "name": "City",
+              "value": "={{ $json.City }}",
+              "type": "string"
+            },
+            {
+              "id": "0432d4e8-323b-4519-a53b-da57582819b8",
+              "name": "Comment_Name",
+              "value": "={{ $json.Comment_Name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        -288
+      ],
+      "id": "4599a0ed-8b2e-4a9b-8c34-e228dac4baa6",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "user_info": [
+            {
+              "id": 1,
+              "name": "Alice",
+              "email": "alice@example.com",
+              "city": "New York"
+            },
+            {
+              "id": 2,
+              "name": "Bob",
+              "email": "bob@example.com",
+              "city": "Los Angeles"
+            },
+            {
+              "id": 3,
+              "name": "Charlie",
+              "email": "charlie@example.com",
+              "city": "Chicago"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        []
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8e26d87b-516a-4919-9ce7-8a032a12c79c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b889822ddbd369b7749d7a24e46bcf2768d2e1237dbea938ccece7a13b7b8218"
+  },
+  "id": "9SX1JB44jT2u3XKx",
+  "tags": [
+    {
+      "createdAt": "2025-10-06T03:26:48.312Z",
+      "updatedAt": "2025-10-06T03:26:48.312Z",
+      "id": "wFHlc1TgEBlMPqDp",
+      "name": "practice"
+    }
+  ]
+}
