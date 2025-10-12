@@ -19,7 +19,8 @@ with sync_playwright() as p:
     # page.goto("https://www.linkedin.com/in/rubayet-faisal-75806157/")
     # page.goto("https://www.linkedin.com/in/faiaz-hossain-nirob/")
     # page.goto("https://www.linkedin.com/jobs/search/?currentJobId=4301995844&geoId=106215326&keywords=python%20developer&origin=JOB_SEARCH_PAGE_KEYWORD_AUTOCOMPLETE&refresh=true")
-    page.goto("https://www.linkedin.com/company/aci-limited/people/")
+    # page.goto("https://www.linkedin.com/company/aci-limited/people/")
+    page.goto("https://x.com/BeUnitedHindus/status/1977038013697081534")
     time.sleep(5)
     
 
