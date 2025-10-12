@@ -19,6 +19,7 @@ with sync_playwright() as p:
     # page.goto("https://www.linkedin.com/in/rubayet-faisal-75806157/")
     # page.goto("https://www.linkedin.com/in/faiaz-hossain-nirob/")
     # page.goto("https://www.linkedin.com/jobs/search/?currentJobId=4301995844&geoId=106215326&keywords=python%20developer&origin=JOB_SEARCH_PAGE_KEYWORD_AUTOCOMPLETE&refresh=true")
+    page.goto("https://www.linkedin.com/company/aci-limited/people/")
     time.sleep(5)
     
 
@@ -32,12 +33,12 @@ with sync_playwright() as p:
     # Sanitize filename (avoid special chars)
     safe_title = "".join(c if c.isalnum() else "_" for c in title)[:60]
 
-    # # Save the page HTML
-    # file_path = f"{safe_title}.html"
-    # with open(file_path, "w", encoding="utf-8") as f:
-    #     f.write(html_content)
+    # Save the page HTML
+    file_path = f"{safe_title}.html"
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(html_content)
 
-    # print(f"✅ Page saved as: {file_path}")
+    print(f"✅ Page saved as: {file_path}")
 
     # Take a screenshot
     page.screenshot(path="google-home.png")
