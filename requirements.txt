@@ -37,3 +37,7 @@ flask
 flask_cors
 langchain-mcp-adapters
 tavily-python
+ipywidgets
+sounddevice
+scipy
+
