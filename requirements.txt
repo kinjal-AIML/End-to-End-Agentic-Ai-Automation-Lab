@@ -40,4 +40,5 @@ tavily-python
 ipywidgets
 sounddevice
 scipy
+llama-cloud-services
 
