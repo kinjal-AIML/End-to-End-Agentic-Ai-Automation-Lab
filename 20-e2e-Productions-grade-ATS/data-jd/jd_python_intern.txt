@@ -1,0 +1,24 @@
+### **Job Title:** AI & Python Backend Intern (R&D Team)
+
+**Role Summary:**
+We are seeking a high-potential Python Intern to join our R&D division. You will work on building production-grade Generative AI agents, RAG pipelines, and robust backend systems. This is not a basic web-scraping role; you will work with advanced orchestration frameworks.
+
+**Required Technical Skills (Must Haves):**
+1.  **Core Python:** Deep understanding of OOP (Classes, Inheritance, Decorators), Generators, and AsyncIO.
+2.  **AI Orchestration:** Hands-on experience with **LangChain** and **LangGraph** (State management, Nodes, Edges).
+3.  **LLM Concepts:** Understanding of RAG (Retrieval Augmented Generation), Multi-Agent systems, and Context Engineering.
+4.  **Database:** Proficiency in **PostgreSQL** (SQL, Relations) or MySQL.
+5.  **Web Frameworks:** Experience building APIs using **FastAPI** (preferred) or Django/Flask.
+
+**Nice-to-Have Skills (Bonus):**
+*   Knowledge of Vector Databases (Pinecone, ChromaDB).
+*   Basic understanding of Machine Learning (ML), Deep Learning (DL), and NLP fundamentals.
+*   Experience with Alembic for database migrations.
+
+**Soft Skills & Competencies:**
+*   Strong problem-solving ability (DSA fundamentals).
+*   Ability to read research papers and implement concepts.
+*   Professionalism in code documentation and Git workflow.
+
+---
+
