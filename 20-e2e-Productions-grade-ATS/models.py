@@ -169,6 +169,9 @@ class Job(BaseTable, table=True):
     )
     
     status: JobStatus = Field(default=JobStatus.OPEN)
+
+    expiry_date: Optional[datetime] = Field(default=None) # Automatically closes after this
+    is_active: bool = Field(default=True) # Manual override (HR can close early)
     
     # Link for Shortlisted candidates
     task_link: Optional[str] = Field(
