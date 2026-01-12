@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Header -->
+        <header class="chat-header">
+            <div class="header-info">
+                <i class="fa-solid fa-robot"></i>
+                <div>
+                    <h2>Agentic AI</h2>
+                    <span class="status">Online</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Chat History Area -->
+        <div id="chat-box" class="chat-box">
+            <!-- Messages will appear here -->
+            <div class="message ai-message">
+                <div class="content">Hello! I am your AI assistant. How can I help you today?</div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <form id="chat-form">
+                <input type="text" id="user-input" placeholder="Type a message..." autocomplete="off" required>
+                <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
