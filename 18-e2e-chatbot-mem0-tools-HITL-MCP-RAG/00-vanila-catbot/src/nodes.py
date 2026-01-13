@@ -1,12 +1,15 @@
 from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from src.state import ChatState
 import os
 from dotenv import load_dotenv
 load_dotenv()
 
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
 # Initialize LLM with streaming=True
-llm = ChatOpenAI(model="gpt-4o-mini", streaming=True)
+# llm = ChatOpenAI(model="gpt-4o-mini", streaming=True)
+llm = ChatGroq(model="openai/gpt-oss-120b")
 
 def chat_node(state: ChatState):
     """
