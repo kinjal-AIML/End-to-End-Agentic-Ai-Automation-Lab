@@ -91,11 +91,11 @@ def generate_conversation_title(user_content: str, ai_content: str) -> str:
     except Exception:
         return "New Conversation"
     
-response = chatbot.invoke(
-    {
-        "messages": [HumanMessage(content="what is my name?")]
-    },
-    config = {'configurable': {'thread_id': "chat-1"}}
-)
+# response = chatbot.invoke(
+#     {
+#         "messages": [HumanMessage(content="what is my name?")]
+#     },
+#     config = {'configurable': {'thread_id': "chat-1"}}
+# )
 
-print(response)
+# print(response)
