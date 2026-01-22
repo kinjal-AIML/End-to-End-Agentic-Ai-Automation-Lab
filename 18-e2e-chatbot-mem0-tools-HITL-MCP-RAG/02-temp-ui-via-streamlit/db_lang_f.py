@@ -81,7 +81,13 @@ if user_input:
         st.text(user_input)
 
     # 2. Logic: Stream Response
-    CONFIG = {'configurable': {'thread_id': current_thread_id}}
+    CONFIG = {
+        'configurable': {'thread_id': current_thread_id},
+        "metadata": {
+            "thread_id": st.session_state["thread_id"]
+        },
+        "run_name": "catbot"
+        }
     
     with st.chat_message("assistant"):
         def ai_only_stream():
