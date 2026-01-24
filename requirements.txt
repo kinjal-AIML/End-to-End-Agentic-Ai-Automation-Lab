@@ -41,4 +41,6 @@ ipywidgets
 sounddevice
 scipy
 llama-cloud-services
+vllm
+openai
 
