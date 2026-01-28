@@ -3,39 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Assistant</title>
+    <title>Enterprise RAG | Intelligence</title>
     <link rel="stylesheet" href="/static/style.css">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-    <div class="chat-container">
-        <!-- Header -->
-        <header class="chat-header">
-            <div class="header-info">
-                <i class="fa-solid fa-robot"></i>
-                <div>
-                    <h2>Agentic AI</h2>
-                    <span class="status">Online</span>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+                <h2>Nexus AI</h2>
+            </div>
+            
+            <button id="new-chat-btn" class="new-chat-btn">
+                <i class="fa-solid fa-plus"></i> New Conversation
+            </button>
+
+            <div class="history-list" id="history-list"></div>
+        </aside>
+
+        <main class="chat-interface" id="drop-zone">
+            <!-- Drop Overlay -->
+            <div id="drag-overlay" class="drag-overlay">
+                <div class="overlay-content">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <p>Drop PDF to index document</p>
                 </div>
             </div>
-        </header>
 
-        <!-- Chat History Area -->
-        <div id="chat-box" class="chat-box">
-            <!-- Messages will appear here -->
-            <div class="message ai-message">
-                <div class="content">Hello! I am your AI assistant. How can I help you today?</div>
+            <header class="top-bar">
+                <div class="thread-info">
+                    <span id="active-file-indicator" class="file-badge hidden">
+                        <i class="fa-regular fa-file-pdf"></i> <span id="filename-display">doc.pdf</span>
+                    </span>
+                </div>
+                <div class="user-profile">
+                    <div class="status-dot"></div> System Active
+                </div>
+            </header>
+
+            <div id="chat-box" class="chat-box">
+                <!-- Messages injected here -->
             </div>
-        </div>
 
-        <!-- Input Area -->
-        <div class="input-area">
-            <form id="chat-form">
-                <input type="text" id="user-input" placeholder="Type a message..." autocomplete="off" required>
-                <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
-            </form>
-        </div>
+            <div class="input-container">
+                <div id="upload-status" class="upload-status"></div>
+                <div class="input-wrapper" id="input-wrapper">
+                    <input type="file" id="pdf-upload" accept=".pdf" hidden>
+                    <button type="button" id="upload-btn" class="icon-btn" title="Upload PDF">
+                        <i class="fa-solid fa-paperclip"></i>
+                    </button>
+
+                    <form id="chat-form">
+                        <input type="text" id="user-input" placeholder="Ask a question or drop a PDF..." autocomplete="off">
+                        <button type="submit" class="send-btn">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </form>
+                </div>
+                <p class="disclaimer">Nexus AI can make mistakes. Verify important information.</p>
+            </div>
+        </main>
     </div>
 
     <script src="/static/script.js"></script>
