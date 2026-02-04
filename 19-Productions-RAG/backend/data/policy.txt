@@ -1,0 +1,30 @@
+BYV (Build Your Vision) - Enterprise Data Privacy & Security Policy
+Last Updated: January 2025
+
+1. SECURITY ARCHITECTURE (SOC-2 ALIGNMENT)
+BYV engineers systems with a "Security-First" methodology aligned with SOC-2 Type II standards.
+- Encryption: All data is encrypted at rest using AES-256 and in transit using TLS 1.3.
+- Access Control: We enforce strict Role-Based Access Control (RBAC). Only authorized engineers with 2FA enabled can access production environments.
+- Infrastructure: We utilize ISO 27001 certified cloud providers (AWS, Google Cloud, Vercel) for hosting.
+- Air-Gap Option: For highly sensitive enterprise clients (Defense/Finance), we offer air-gapped on-premise deployment where data never touches the public internet.
+
+2. DATA PRIVACY & GDPR COMPLIANCE
+We respect your sovereignty over your data.
+- Data Ownership: Clients retain 100% intellectual property rights to their proprietary data, fine-tuned model weights, and custom codebases. BYV claims no ownership over client inputs.
+- No Training on Client Data: BYV strictly prohibits the use of client data to train our own foundation models or shared models. Your data is isolated in your private VPC.
+- Right to Erasure: In accordance with GDPR Article 17, clients may request full deletion of their data from our systems at any time. We execute this within 72 hours.
+
+3. AI SAFETY & ETHICS
+- Zero Retention Policy (API): When using third-party LLM APIs (like OpenAI Enterprise), we configure policies to ensure zero data retention for model training purposes.
+- Hallucination Control: Our RAG systems are engineered with "Groundedness Checks." If the system cannot find a verified source within the provided knowledge base, it is programmed to decline answering rather than fabricating information.
+
+4. COOKIES & TRACKING
+- Essential Cookies: We use cookies solely for session management (authentication) and load balancing.
+- Analytics: We use anonymized analytics to improve system performance. We do not sell user data to advertising networks.
+
+5. LIABILITY & SLA
+- Uptime: For Enterprise SLA clients, we guarantee 99.9% uptime.
+- Liability: BYV is responsible for the integrity of the code delivered. However, we are not liable for business decisions made based on AI-generated outputs. Human oversight is recommended for critical automated decisions.
+
+CONTACT
+For security audits or privacy requests, contact our Data Protection Officer (DPO) at: contact@byvbd.com

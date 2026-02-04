@@ -1,0 +1,75 @@
+[
+  {
+    "id": "prod_infra_01",
+    "product_name": "Digital Infrastructure",
+    "category": "infrastructure",
+    "url_context": "/products/infrastructure",
+    "content": "BYV architects high-performance digital platforms using Next.js and Cloud-Native technologies. Unlike agencies that rely on brittle legacy systems (like WordPress), we build API-first architectures using React, FastAPI, and PostgreSQL. Key features include sub-100ms load times via Edge Caching, Enterprise Security (SOC-2 Ready, 256-bit encryption), and Mobile Native deployment (iOS/Android from a single codebase). This infrastructure is designed for scalability, automatically handling traffic spikes without downtime.",
+    "indexing_questions": [
+      "What technology stack does BYV use?",
+      "Do you build mobile apps?",
+      "Is the website secure?",
+      "How fast are your websites?",
+      "Do you use WordPress or custom code?",
+      "What is your cloud architecture?"
+    ]
+  },
+  {
+    "id": "prod_model_01",
+    "product_name": "Custom AI Models",
+    "category": "ai_models",
+    "url_context": "/products/custom-models",
+    "content": "BYV offers Custom AI Model Fine-Tuning services. We train open-source foundation models (like Llama-3, Mistral, or Falcon) specifically on your proprietary enterprise data. This ensures Data Sovereignty—your data never leaves your Private Cloud (VPC) or On-Premise servers, unlike public APIs like GPT-4. These specialized models are 90% cheaper to run at scale and are hyper-specialized for your industry jargon, whether it is Garment Manufacturing defects or Medical compliance codes.",
+    "indexing_questions": [
+      "Can you train an AI on my private data?",
+      "Do you use OpenAI or Open Source models?",
+      "Is my data safe and private?",
+      "What is the difference between fine-tuning and RAG?",
+      "Can I host the model on my own servers?",
+      "How much does it cost to run a custom model?"
+    ]
+  },
+  {
+    "id": "prod_agent_01",
+    "product_name": "Autonomous Agents",
+    "category": "agents",
+    "url_context": "/products/agents",
+    "content": "BYV's Autonomous Agents are the 'Digital Workforce' that automates complex business operations. Powered by LangGraph event-driven architecture, these agents plan, reason, and execute tasks 24/7. Use cases include: Sales Automation (negotiating via chat and logging deals to CRM), Operations (tracking factory inventory and predicting supply chain delays), and Document Processing (using Vision to read invoices). The system includes 'Human-in-the-Loop' protocols, where agents ask for manager approval if confidence is low.",
+    "indexing_questions": [
+      "What can autonomous agents do?",
+      "Can the AI send emails or update my CRM?",
+      "Do agents work 24/7?",
+      "Can the AI read invoices or images?",
+      "How do you handle errors in automation?",
+      "What is LangGraph?"
+    ]
+  },
+  {
+    "id": "prod_rag_01",
+    "product_name": "Enterprise RAG",
+    "category": "rag",
+    "url_context": "/products/rag",
+    "content": "BYV's Enterprise RAG (Retrieval Augmented Generation) engine allows your team to chat with your internal knowledge base. We ingest unstructured data (PDFs, SharePoint, Google Drive) and structured data (SQL) into a Vector Store. The system provides 'Grounded Truth'—every answer includes citations linking back to the source document, eliminating hallucinations. It supports Role-Based Access Control (RBAC), ensuring users only access data they are permitted to see.",
+    "indexing_questions": [
+      "How does RAG work?",
+      "Can I chat with my PDF documents?",
+      "Does the AI make up facts (hallucinate)?",
+      "Can I connect my database or Google Drive?",
+      "Is the knowledge base secure?"
+    ]
+  },
+  {
+    "id": "general_company_01",
+    "product_name": "About BYV",
+    "category": "general",
+    "url_context": "/",
+    "content": "BYV (Build Your Vision) is an engineering collective based in Dhaka, serving clients globally. We are led by Senior Team Leads and Computer Science graduates from top-tier tech firms, not junior freelancers. We specialize in transforming 'Chaos to Order'—taking messy business ideas and engineering scalable software and AI solutions. Our services range from Web Infrastructure to Agentic AI workflows.",
+    "indexing_questions": [
+      "Who is BYV?",
+      "Where are you located?",
+      "Are you an agency or a product company?",
+      "What is your team's experience?",
+      "Why should I choose BYV?"
+    ]
+  }
+]
