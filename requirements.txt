@@ -43,4 +43,6 @@ scipy
 llama-cloud-services
 vllm
 openai
+rank_bm25
+fastapi-mail
 
