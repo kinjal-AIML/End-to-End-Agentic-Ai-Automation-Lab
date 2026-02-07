@@ -5,6 +5,7 @@ pipeline_tag: text-generation
 tags:
 - base_model:adapter:TinyLlama/TinyLlama-1.1B-Chat-v1.0
 - lora
+- transformers
 ---
 
 # Model Card for Model ID
