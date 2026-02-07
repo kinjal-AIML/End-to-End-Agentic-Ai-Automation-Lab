@@ -22,3 +22,26 @@ rank-bm25==0.2.2
 
 # Other
 python-dotenv==1.1.1
+
+
+
+# Core deep learning
+torch>=2.1.0
+
+# Hugging Face core (stable training stack)
+transformers>=4.41.0,<5.0.0
+accelerate>=0.31.0,<1.0.0
+datasets>=2.18.0
+huggingface-hub>=0.21.0
+
+# PEFT / LoRA / QLoRA
+peft>=0.17.0,<0.19.0
+bitsandbytes>=0.43.0
+
+# Utilities (often implicitly required)
+numpy>=1.24.0
+scipy
+tqdm
+packaging
+sentencepiece
+protobuf
