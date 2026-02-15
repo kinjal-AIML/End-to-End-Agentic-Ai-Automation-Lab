@@ -1,1 +1,1 @@
-u_input - agent response - interupt pipeline - human feedbak - loop start again
+u_input - agent response - interrupt pipeline - human feedbag - loop start again
