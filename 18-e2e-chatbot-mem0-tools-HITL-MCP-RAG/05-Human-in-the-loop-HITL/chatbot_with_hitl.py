@@ -145,4 +145,4 @@ if __name__ == "__main__":
         # Get the latest message from the assistant
         messages = result["messages"]
         last_msg = messages[-1]
-        print(f"Bot: {last_msg.content}\n")
+        print(f"Bot: {last_msg.content}\n")  
