@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+pydantic-settings
+langchain-openai
+langgraph
+psycopg_pool
+python-dotenv
