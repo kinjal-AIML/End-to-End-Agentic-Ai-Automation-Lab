@@ -1,0 +1,34 @@
+{
+  "stt_test_data": [
+    {
+      "id": 1,
+      "category": "basic_conversation",
+      "text": "Hello, my name is Al Amin. Today I am testing a speech to text API. I want to see how accurately it converts my voice into text. The weather is nice today and I am working from my laptop."
+    },
+    {
+      "id": 2,
+      "category": "numbers_dates_currency",
+      "text": "Today is March 6, 2026. My meeting starts at 3:45 PM. The project budget is 12,750 dollars. My phone number is 01712-345-678."
+    },
+    {
+      "id": 3,
+      "category": "technical_content",
+      "text": "I am building a Python application using FastAPI and PostgreSQL. The system uses SQLAlchemy as the ORM layer. We also integrate a retrieval augmented generation pipeline with LangGraph and vector embeddings."
+    },
+    {
+      "id": 4,
+      "category": "long_sentence_punctuation",
+      "text": "When building scalable systems engineers must consider latency fault tolerance horizontal scaling and monitoring because a system that works for one hundred users may completely fail when it suddenly needs to support one hundred thousand users."
+    },
+    {
+      "id": 5,
+      "category": "mixed_language_accent_test",
+      "text": "Hello this is Amin speaking. Ami ekta speech to text API test kortesi. I want to see if the system correctly understands my Bangladeshi accent when I speak English."
+    },
+    {
+      "id": 6,
+      "category": "fast_speech_test",
+      "text": "Artificial intelligence is rapidly transforming software development enabling developers to automate repetitive tasks generate code and build more intelligent applications faster than ever before."
+    }
+  ]
+}
