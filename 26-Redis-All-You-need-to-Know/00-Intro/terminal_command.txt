@@ -1,0 +1,48 @@
+md-al-amin@neuron:~$ docker exec -it stoic_khayyam redis-cli
+127.0.0.1:6379> set name "Al Amin"
+OK
+127.0.0.1:6379> get name
+"Al Amin"
+127.0.0.1:6379> set nametemp "hello sir" EX 10
+OK
+127.0.0.1:6379> get nametemp
+"hello sir"
+127.0.0.1:6379> get nametemp
+(nil)
+127.0.0.1:6379> EXISTS name
+(integer) 1
+127.0.0.1:6379> EXISTS nametemp
+(integer) 0
+127.0.0.1:6379> del name
+(integer) 1
+127.0.0.1:6379> EXISTS name
+(integer) 0
+127.0.0.1:6379> APPEND name "gtr" "nogt"
+(error) ERR wrong number of arguments for 'append' command
+127.0.0.1:6379> APPEND name "gtr", "nogt"
+Invalid argument(s)
+127.0.0.1:6379> APPEND name "gtr"
+(integer) 3
+127.0.0.1:6379> append name "genuine"
+(integer) 10
+127.0.0.1:6379> get name
+"gtrgenuine"
+127.0.0.1:6379> SUBSCRIBE testchannel
+1) "subscribe"
+2) "testchannel"
+3) (integer) 1
+1) "message"
+2) "testchannel"
+3) "This is a test messages and its came form the post"
+1) "message"
+2) "testchannel"
+3) "This is a test messages and its came form the postaldjf"
+Reading messages... (press Ctrl-C to quit or any key to type command)
+
+Terminal2: 
+md-al-amin@neuron:~$ docker exec -it stoic_khayyam redis-cli
+127.0.0.1:6379> PUBLISH testchannel "This is a test messages and its came form the post"
+(integer) 1
+127.0.0.1:6379> PUBLISH testchannel "This is a test messages and its came form the postaldjf"
+(integer) 1
+127.0.0.1:6379> 
