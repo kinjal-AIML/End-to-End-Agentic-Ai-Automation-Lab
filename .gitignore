@@ -197,3 +197,4 @@ tools/
 22-LLM-FineTune-Deployment/01-Unsloth-LoRA-vLLM/00-Experiments/finetuned_phi3_gguf
 22-LLM-FineTune-Deployment/01-Unsloth-LoRA-vLLM/00-Experiments/llama.cpp
 22-LLM-FineTune-Deployment/01-Unsloth-LoRA-vLLM/00-Experiments/gguf_own_tune_model
+25-STT-TTS/voice-TTS/notebooks/audio_outputs
