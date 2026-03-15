@@ -1,35 +1,24 @@
-import requests
-from bs4 import BeautifulSoup
-import re
+import yt_dlp
 
-def get_social_links_from_website(url):
-    social_media_patterns = [
-        'facebook.com',
-        'linkedin.com/company',
-        'twitter.com',
-        'instagram.com',
-        'youtube.com',
-        'pinterest.com'
-    ]
-    
-    try:
-        response = requests.get(url, timeout=10)
-        soup = BeautifulSoup(response.content, 'html.parser')
-        
-        found_links = set() # Use a set to avoid duplicates
-        
-        for a in soup.find_all('a', href=True):
-            href = a['href']
-            if any(pattern in href for pattern in social_media_patterns):
-                found_links.add(href)
-                
-        return list(found_links)
-        
-    except requests.RequestException as e:
-        print(f"Error fetching {url}: {e}")
-        return []
+def download_audio(url: str, output_dir: str = "."):
+    ydl_opts = {
+        "format": "bestaudio/best",
+        "outtmpl": f"{output_dir}/%(title)s.%(ext)s",
+        "postprocessors": [
+            {
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "mp3",
+                "preferredquality": "192",
+            }
+        ],
+    }
 
-# Example usage:
-company_url = "http://www.waltonplc.com" 
-links = get_social_links_from_website(company_url)
-print(links)
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
+        print(f"Downloading audio: {info['title']}")
+        ydl.download([url])
+        print("Download complete!")
+
+if __name__ == "__main__":
+    url = input("Enter YouTube URL: ")
+    download_audio(url)
