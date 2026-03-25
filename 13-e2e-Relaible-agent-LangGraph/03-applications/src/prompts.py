@@ -1,0 +1,3 @@
+PLANING_SYS_PROMPT = """
+Think you are ....
+"""
