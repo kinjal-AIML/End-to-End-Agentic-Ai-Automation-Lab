@@ -1,0 +1,8 @@
+pgvector
+psycopg2-binary 
+asyncpg 
+sqlalchemy
+FlagEmbedding 
+pgvector 
+psycopg2-binary
+bm25s
