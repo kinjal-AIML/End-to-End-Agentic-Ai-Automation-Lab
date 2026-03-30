@@ -45,4 +45,11 @@ vllm
 openai
 rank_bm25
 fastapi-mail
-
+pgvector
+psycopg2-binary 
+asyncpg 
+sqlalchemy
+FlagEmbedding 
+pgvector 
+psycopg2-binary
+bm25s

@@ -198,3 +198,6 @@ tools/
 22-LLM-FineTune-Deployment/01-Unsloth-LoRA-vLLM/00-Experiments/llama.cpp
 22-LLM-FineTune-Deployment/01-Unsloth-LoRA-vLLM/00-Experiments/gguf_own_tune_model
 25-STT-TTS/voice-TTS/notebooks/audio_outputs
+19-Productions-RAG/04-Industy-Practice-Rag/models
+19-Productions-RAG/04-Industy-Practice-Rag/data
+19-Productions-RAG/04-Industy-Practice-Rag/notebooks/scripts.sh
