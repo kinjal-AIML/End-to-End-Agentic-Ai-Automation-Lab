@@ -4,11 +4,11 @@ mcp=FastMCP("Math")
 
 @mcp.tool()
 def add(a:int,b:int)->int:
-    """_summary_
-    Add to numbers
+    """Add two numbers.
+    
+    Takes two integers and returns their sum.
     """
     return a+b
-
 @mcp.tool()
 def multiple(a:int,b:int)-> int:
     """Multiply two numbers"""
