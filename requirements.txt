@@ -53,3 +53,6 @@ FlagEmbedding
 pgvector 
 psycopg2-binary
 bm25s
+
+## MCP-Server
+fastmcp
