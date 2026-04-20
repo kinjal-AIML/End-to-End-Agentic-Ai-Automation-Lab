@@ -1,21 +1,12 @@
 {
 	"servers": {
-		"my-mcp-server-a28dde86": {
+		"my-mcp-server-2dedc350": {
 			"type": "stdio",
-			"command": "uvx",
+			"command": "/home/md-al-amin/.local/bin/uv",
 			"args": [
-				"mcp-server-time"
+				"run",
+				"/home/md-al-amin/My-Projects/End-to-End-Agentic-Ai-Automation-Lab/11.5-Advanced-MCP-ownMCPs/00-Locla-mcp-Server/00-basics-server/main.py"
 			]
-		},
-		"my-mcp-server-56befebd": {
-			"type": "stdio",
-			"command": "uvx",
-			"args": [
-				"serper-mcp-server"
-			],
-			"env": {
-                "SERPER_API_KEY": "your api key"
-            }
 		}
 	},
 	"inputs": []
