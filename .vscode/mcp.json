@@ -7,6 +7,14 @@
 				"run",
 				"/home/md-al-amin/My-Projects/End-to-End-Agentic-Ai-Automation-Lab/11.5-Advanced-MCP-ownMCPs/00-Locla-mcp-Server/00-basics-server/main.py"
 			]
+		},
+		"my-mcp-server-expense": {
+			"type": "stdio",
+			"command": "/home/md-al-amin/.local/bin/uv",
+			"args": [
+				"run",
+				"/home/md-al-amin/My-Projects/End-to-End-Agentic-Ai-Automation-Lab/11.5-Advanced-MCP-ownMCPs/00-Locla-mcp-Server/01-adv-expence-tracker-server/main.py",
+			]
 		}
 	},
 	"inputs": []
