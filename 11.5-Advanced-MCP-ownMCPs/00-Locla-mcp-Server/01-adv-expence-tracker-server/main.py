@@ -71,11 +71,7 @@ def summarize(start_date, end_date, category=None):
         cols = [d[0] for d in cur.description]
         return [dict(zip(cols, r)) for r in cur.fetchall()]
 
-@mcp.resource("expense://categories", mime_type="application/json")
-def categories():
-    # Read fresh each time so you can edit the file without restarting
-    with open(CATEGORIES_PATH, "r", encoding="utf-8") as f:
-        return f.read()
+
     
 
 @mcp.tool()
@@ -108,8 +104,14 @@ def update_expense(expense_id, date=None, amount=None, category=None, subcategor
         params.append(expense_id)
         query = f"UPDATE expenses SET {', '.join(fields)} WHERE id = ?"
         c.execute(query, params)
-        return {"status": "ok", "updated_rows": c.rowcount}
+        return {"status": "ok"}
     
+
+@mcp.resource("expense://categories", mime_type="application/json")
+def categories():
+    # Read fresh each time so you can edit the file without restarting
+    with open(CATEGORIES_PATH, "r", encoding="utf-8") as f:
+        return f.read()
 
 
 if __name__ == "__main__":
