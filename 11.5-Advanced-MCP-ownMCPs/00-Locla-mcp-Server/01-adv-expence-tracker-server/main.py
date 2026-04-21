@@ -76,6 +76,41 @@ def categories():
     # Read fresh each time so you can edit the file without restarting
     with open(CATEGORIES_PATH, "r", encoding="utf-8") as f:
         return f.read()
+    
+
+@mcp.tool()
+def update_expense(expense_id, date=None, amount=None, category=None, subcategory=None, note=None):
+    '''Update an existing expense entry. Only provided fields will be updated.'''
+    with sqlite3.connect(DB_PATH) as c:
+        # Build the update query dynamically based on provided fields
+        fields = []
+        params = []
+
+        if date is not None:
+            fields.append("date = ?")
+            params.append(date)
+        if amount is not None:
+            fields.append("amount = ?")
+            params.append(amount)
+        if category is not None:
+            fields.append("category = ?")
+            params.append(category)
+        if subcategory is not None:
+            fields.append("subcategory = ?")
+            params.append(subcategory)
+        if note is not None:
+            fields.append("note = ?")
+            params.append(note)
+
+        if not fields:
+            return {"status": "error", "message": "No fields to update"}
+
+        params.append(expense_id)
+        query = f"UPDATE expenses SET {', '.join(fields)} WHERE id = ?"
+        c.execute(query, params)
+        return {"status": "ok", "updated_rows": c.rowcount}
+    
+
 
 if __name__ == "__main__":
     mcp.run()
