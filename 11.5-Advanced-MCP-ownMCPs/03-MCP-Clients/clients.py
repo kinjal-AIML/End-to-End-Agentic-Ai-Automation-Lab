@@ -1,6 +1,8 @@
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI    
+
+
 import os
 from dotenv import load_dotenv
 # Load environment variables from a .env file
@@ -8,7 +10,6 @@ load_dotenv()
 import asyncio
 
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
-
 llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
 SERVERS = {
@@ -31,8 +32,19 @@ async def main():
     # Fetch the tools
     tools = await client.get_tools()
     
-    print("\nSuccessfully connected!")
-    print("Found tools:", tools)
+    named_tools = {tool.name: tool for tool in tools}
+    # print(f"Available tools: {list(named_tools.keys())}")   
+
+    llm_with_tools = llm.bind_tools(tools)
+
+    # Example query to the agent
+    query = "add an expense of 1400 BDT for groceries on September 15th, 2024."
+
+    response = await llm_with_tools.ainvoke(query)
+
+    print(f"Agent Response: {response}")
+
+
 
 if __name__ == "__main__":
     asyncio.run(main())
