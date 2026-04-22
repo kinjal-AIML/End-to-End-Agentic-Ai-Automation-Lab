@@ -14,14 +14,31 @@ os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
 SERVERS = {
-    "my-mcp-server-expense": {
-        "transport": "stdio",
-        "command": "/home/md-al-amin/.local/bin/uv",
-        "args":[
-            "run",
-            "/home/md-al-amin/My-Projects/End-to-End-Agentic-Ai-Automation-Lab/11.5-Advanced-MCP-ownMCPs/00-Locla-mcp-Server/01-adv-expence-tracker-server/main.py",
-        ]
-    }
+    # "my-mcp-server-expense": {
+    #     "transport": "stdio",
+    #     "command": "/home/md-al-amin/.local/bin/uv",
+    #     "args":[
+    #         "run",
+    #         "/home/md-al-amin/My-Projects/End-to-End-Agentic-Ai-Automation-Lab/11.5-Advanced-MCP-ownMCPs/00-Locla-mcp-Server/01-adv-expence-tracker-server/main.py",
+    #     ]
+    # },
+
+    "expense-tracker-cloud-server": {
+        "transport": "streamable_http",
+        "url": "https://gtr-mcp-expense.fastmcp.app/mcp",
+        "headers": {
+            "Authorization": f"Bearer {os.getenv('FASTMCP_API_KEY')}"
+        }
+    },
+
+    "my-mcp-server-2dedc350": {
+			"transport": "stdio",
+			"command": "/home/md-al-amin/.local/bin/uv",
+			"args": [
+				"run",
+				"/home/md-al-amin/My-Projects/End-to-End-Agentic-Ai-Automation-Lab/11.5-Advanced-MCP-ownMCPs/00-Locla-mcp-Server/00-basics-server/main.py"
+			]
+		}
 }
 
 async def main():
