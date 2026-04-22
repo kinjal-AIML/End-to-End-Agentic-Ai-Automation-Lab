@@ -1,7 +1,8 @@
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI    
-
+from langchain_core.messages import ToolMessage
+import json
 
 import os
 from dotenv import load_dotenv
@@ -24,27 +25,40 @@ SERVERS = {
 }
 
 async def main():
-    print("Starting MCP Client...")
-
-    # Initialize the client directly (no "async with")
+    
     client = MultiServerMCPClient(SERVERS)
-    
-    # Fetch the tools
     tools = await client.get_tools()
-    
-    named_tools = {tool.name: tool for tool in tools}
-    # print(f"Available tools: {list(named_tools.keys())}")   
 
+
+    named_tools = {}
+    for tool in tools:
+        named_tools[tool.name] = tool
+
+    print("Available tools:", named_tools.keys())
+
+    llm = ChatOpenAI(model="gpt-5")
     llm_with_tools = llm.bind_tools(tools)
 
-    # Example query to the agent
-    query = "add an expense of 1400 BDT for groceries on September 15th, 2024."
+    prompt = "can you add an expense of 100 dollars for food category with description 'lunch' and date '2024-10-01'?"
+    response = await llm_with_tools.ainvoke(prompt)
 
-    response = await llm_with_tools.ainvoke(query)
+    if not getattr(response, "tool_calls", None):
+        print("\nLLM Reply:", response.content)
+        return
 
-    print(f"Agent Response: {response}")
+    tool_messages = []
+    for tc in response.tool_calls:
+        selected_tool = tc["name"]
+        selected_tool_args = tc.get("args") or {}
+        selected_tool_id = tc["id"]
+
+        result = await named_tools[selected_tool].ainvoke(selected_tool_args)
+        tool_messages.append(ToolMessage(tool_call_id=selected_tool_id, content=json.dumps(result)))
+        
+
+    final_response = await llm_with_tools.ainvoke([prompt, response, *tool_messages])
+    print(f"Final response: {final_response.content}")
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     asyncio.run(main())
