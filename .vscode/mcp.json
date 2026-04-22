@@ -15,7 +15,12 @@
 				"run",
 				"/home/md-al-amin/My-Projects/End-to-End-Agentic-Ai-Automation-Lab/11.5-Advanced-MCP-ownMCPs/00-Locla-mcp-Server/01-adv-expence-tracker-server/main.py",
 			]
-		}
+		},
+		
+		"cloud-expense-server": {
+			"type": "sse",
+			"url": "https://gtr-mcp-expense.fastmcp.app/mcp"
+    	}
 	},
 	"inputs": []
 }
