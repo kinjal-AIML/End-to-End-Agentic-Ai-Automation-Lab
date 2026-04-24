@@ -6,3 +6,8 @@ FlagEmbedding
 pgvector 
 psycopg2-binary
 bm25s
+fastapi
+uvicorn
+langchain
+langchain_core
+langgraph
