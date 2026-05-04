@@ -1,29 +1,31 @@
-import time
-from fastapi import Request, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+import redis.asyncio as redis
+import httpx
+import json
+from rate_limiting import rate_limiter
 
-RATE_LIMIT = 5       # requests
-WINDOW_SIZE = 60     # seconds
+app = FastAPI()
 
-async def rate_limiter(request: Request):
-    client_ip = request.client.host
+@app.on_event("startup")
+async def startup_event():
+    app.state.redis = redis.Redis(host='localhost', port=6379, db=0)
+    app.state.http_client = httpx.AsyncClient()
 
-    key = f"rate_limit:{client_ip}"
 
-    # Get current count
-    current = await request.app.state.redis.get(key)
+@app.on_event("shutdown")
+async def shutdown_event():
+    await app.state.redis.close()
+    await app.state.http_client.aclose()
 
-    if current is None:
-        # First request → set count = 1 and expiry
-        await request.app.state.redis.set(key, 1, ex=WINDOW_SIZE)
-        return
 
-    current = int(current)
+from fastapi import Depends
 
-    if current >= RATE_LIMIT:
-        raise HTTPException(
-            status_code=429,
-            detail="Rate limit exceeded. Try again later."
-        )
-
-    # Increment count
-    await request.app.state.redis.incr(key)
+@app.get("/entries")
+async def read_item(
+    request: Request,
+    _: None = Depends(rate_limiter)  # 👈 rate limit applied here
+):
+    response = await app.state.http_client.get(
+        "https://jsonplaceholder.typicode.com/posts"
+    )
+    return response.json()
