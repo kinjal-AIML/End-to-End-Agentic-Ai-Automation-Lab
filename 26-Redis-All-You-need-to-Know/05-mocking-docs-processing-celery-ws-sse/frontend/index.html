@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multi Task Progress</title>
+</head>
+<body>
+
+<h2>Upload Document</h2>
+
+<textarea id="text" rows="4" cols="50"></textarea>
+<br><br>
+
+<button onclick="upload()">Upload</button>
+
+<hr>
+
+<h2>Tasks</h2>
+<div id="tasks"></div>
+
+<script>
+async function upload() {
+    const text = document.getElementById("text").value;
+
+    const res = await fetch("http://localhost:8000/upload", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ text })
+    });
+
+    const data = await res.json();
+    const docId = data.document_id;
+
+    createTaskUI(docId);
+    listenToProgress(docId);
+}
+
+
+// 🔥 Create separate UI per task
+function createTaskUI(docId) {
+    const container = document.getElementById("tasks");
+
+    const div = document.createElement("div");
+    div.id = docId;
+    div.style.border = "1px solid black";
+    div.style.margin = "10px";
+    div.style.padding = "10px";
+
+    div.innerHTML = `
+        <p><b>Task:</b> ${docId}</p>
+        <p>Status: <span class="status">Starting...</span></p>
+        <div style="width:100%; background:#ddd; height:20px;">
+            <div class="bar" style="width:0%; height:20px; background:green;"></div>
+        </div>
+    `;
+
+    container.appendChild(div);
+}
+
+
+// 🔥 Separate SSE per task
+function listenToProgress(docId) {
+    const eventSource = new EventSource(`http://localhost:8000/stream/${docId}`);
+
+    const taskDiv = document.getElementById(docId);
+    const statusEl = taskDiv.querySelector(".status");
+    const barEl = taskDiv.querySelector(".bar");
+
+    eventSource.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+
+        statusEl.innerText = data.status;
+        barEl.style.width = data.progress + "%";
+
+        if (data.progress === 100) {
+            eventSource.close();
+        }
+    };
+}
+</script>
+
+</body>
+</html>
